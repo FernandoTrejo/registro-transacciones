@@ -1,4 +1,8 @@
 import {Default} from './Default.js';
+import {Catalogo} from '../clases/Catalogo.js';
+import {LibroDiario} from '../clases/LibroDiario.js';
+import {Asiento} from '../clases/Asiento.js';
+import {Movimiento} from '../clases/Movimiento.js';
 
 class Storage{
   constructor(name, object){
@@ -14,10 +18,11 @@ class Storage{
       
   static getInstance(name){
     if(!Storage.sessionExists(name)){
+      alert("no existe la sesion")
       return new Storage(name, new Default());
     }
-    
-    return new Storage(name, Storage.parseJSON(name)); 
+    alert("existe")
+    return Storage.buildStorageObject(name,Storage.parseJSON(name));
   }
   
   static sessionExists(name){
@@ -26,6 +31,25 @@ class Storage{
   
   static parseJSON(name){
     return JSON.parse(localStorage.getItem(name));
+  }
+  
+  static buildStorageObject(name,obj){
+    let temp = obj.catalogo;
+    let catalogo = new Catalogo(temp.activo,temp.pasivo,temp.capital,temp.acreedoras,temp.deudoras,temp.cierre);
+    
+    let asientos = [];
+    for(let asiento of obj.libroDiario.asientos){
+      let movimientos= [];
+      console.log(asiento.movimientos);
+      for(let movimiento of asiento.movimientos){
+        movimientos.push(new Movimiento(movimiento.codigo, movimiento.nombreCuenta, Number(movimiento.debe.quantity), Number(movimiento.haber.quantity), Number(movimiento.tipo)));
+      }
+      asientos.push(new Asiento(new Date(asiento.fecha), asiento.concepto, asiento.comentarios, Number(asiento.tipo), movimientos));
+    }
+    let libroDiario = new LibroDiario(asientos);
+    
+    let finalObject = new Default(catalogo,libroDiario);
+    return new Storage(name, finalObject); 
   }
   
   getObject(){

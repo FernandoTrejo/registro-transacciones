@@ -1,14 +1,15 @@
 import {Money} from './Money.js';
 
 class Asiento{
-  constructor(fecha, concepto, comentarios = "", tipo = 1){ //tipo 1. simple, 2.compuesto
+  constructor(fecha, concepto, comentarios = "", tipo = 1, movimientos=[]){ //tipo 1. simple, 2.compuesto
     this.fecha = fecha;
     this.concepto = concepto;
     this.comentarios = comentarios;
     this.tipo = tipo;
-    this.movimientos = [];
+    this.movimientos = movimientos;
     this.debe = new Money(0);
     this.haber = new Money(0);
+    this.calcular();
   }
   getComentarios(){
     return this.comentarios;

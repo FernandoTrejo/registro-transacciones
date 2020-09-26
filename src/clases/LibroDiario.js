@@ -1,10 +1,24 @@
 import {Money} from './Money.js';
 
 class LibroDiario{
-  constructor(){
-    this.asientos = [];
+  constructor(asientos = []){
+    this.asientos = asientos;
     this.debe = new Money(0);
     this.haber = new Money(0);
+    this.calcular();
+  }
+  
+  getAsientos(){
+    this.ordenarPorFecha();
+    return this.asientos;
+  }
+  
+  getDebe(){
+    return this.debe;
+  }
+  
+  getHaber(){
+    return this.haber;
   }
   
   addAsiento(asiento){

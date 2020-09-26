@@ -3,15 +3,22 @@ import { Movimiento } from '../../../clases/Movimiento.js';
 import { Asiento } from '../../../clases/Asiento.js';
 import { LibroDiario } from '../../../clases/LibroDiario.js';
 import { Storage } from '../../../storage/Storage.js';
+import { Default } from '../../../storage/Default.js';
 
 //almacen de datos
-let store = Storage.getInstance('empresa1');
+//localStorage.clear();
+
+let store = null; 
 
 //objeto asiento que se usara globalmente
 let asiento = null;
 
 //lista de divs principales de la pagina
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
+
+function refreshStore(){
+  store = Storage.getInstance('empresa1');
+}
 
 function crearAsiento(){
   if(validarCampos()){
@@ -27,7 +34,7 @@ function crearAsiento(){
       asiento.setConcepto(nombre);
     }
     
-    document.getElementById("headerAsiento").innerHTML = `<b>Concepto</b>: ${asiento.getConcepto()}`;
+    document.getElementById("headerAsiento").innerHTML = `<b>Concepto:</b> ${asiento.getConcepto()}`;
     document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFecha()}`;
     document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
     console.log(asiento);
@@ -41,22 +48,53 @@ function modificarAsiento(){
   hidDivsExcept(divs, ['formCrearAsiento']);
 }
 
-function cancelarAsiento(){
-  asiento = null;
-  document.getElementById("divMovimientosTabla").innerHTML = "";
-  document.getElementById("divFooterTabla").innerHTML = "";
+//limpiar
+function limpiarCamposAsiento(){
+  document.getElementById("dateFechaAsiento").value = "";
+  document.getElementById("txtNombreAsiento").value = "";
+  document.getElementById("txtComentariosAsiento").value = "";
+}
+
+function limpiarCamposMovimiento(){
   document.getElementById("numMontoMovimientoDebe").value = "";
   document.getElementById("numMontoMovimientoHaber").value = "";
   document.getElementById("txtPartidaCuenta").value = "";
   document.getElementById("txtContrapartidaCuenta").value = "";
-  document.getElementById("dateFechaAsiento").value = "";
-  document.getElementById("txtNombreAsiento").value = "";
-  document.getElementById("txtComentariosAsiento").value = "";
+  document.getElementById("btnGuardarAsiento").disabled = true;
+  document.getElementById("btnAgregarMovimiento").innerText = "Añadir";
+}
+
+function limpiarDivsMovimiento(){
+  document.getElementById("divMovimientosTabla").innerHTML = "";
+  document.getElementById("divFooterTabla").innerHTML = "";
+}
+
+function cancelarAsiento(){
+  asiento = null;
+  limpiarDivsMovimiento();
+  limpiarCamposMovimiento();
+  limpiarCamposAsiento();
   
   let btn = document.getElementById("btnAgregarMovimiento");
   btn.innerText = "Añadir";
   
   hidDivsExcept(divs, ['formCrearAsiento']);
+}
+
+function guardarAsiento(){
+  if(asiento != null){
+    store.getObject().getLibroDiario().getAsientos().push(asiento);
+    store.save();
+    refreshStore();
+    
+    limpiarDivsMovimiento();
+    limpiarCamposMovimiento();
+    limpiarCamposAsiento();
+    
+    mostrarLista();
+    hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
+    asiento = null;
+  }
 }
 
 function agregarMovimiento(){
@@ -76,8 +114,8 @@ function agregarMovimiento(){
       asiento.vaciarMovimientos();
     }
     
-    asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1));
-    asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2));
+    asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, monto, 0, 1));
+    asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, 0, monto,2));
     
     let btn = document.getElementById("btnAgregarMovimiento");
     btn.innerText = "Actualizar";
@@ -135,6 +173,9 @@ function actualizarDivMovimientos(){
       
       result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
     }
+    //desactivar o activar boton
+    let btnGuardar = document.getElementById("btnGuardarAsiento");
+    btnGuardar.disabled = !asiento.estaBalanceado();
     
     let lineStyle = (asiento.estaBalanceado()) ? "line-success" : "line-error";
     
@@ -152,6 +193,71 @@ function igualarHaber(){
   document.getElementById("numMontoMovimientoHaber").value = document.getElementById("numMontoMovimientoDebe").value;
 }
 
+function mostrarLista(){
+  console.log(localStorage)
+  let asientos = store.getObject().getLibroDiario().getAsientos();
+  console.log(store)
+  if(asientos.length > 0){
+    let result = `<div class="separator"></div><h5 class="mb-0">Lista Asientos Simples</h5>`;
+    for(let asiento of asientos){
+      console.log(asiento)
+      if(Number(asiento.getTipo()) != 1){
+        continue;
+      }
+      result += `<div class="separator"></div>`;
+      result += `<div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div class="card">
+                          <div class="card-header">
+                              <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
+                              <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
+                              <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
+                              <button type="button" class="btn btn-info" id="">Modificar</button>
+                              <button type="button" class="btn btn-danger" id="">Eliminar</button>
+                          </div>
+                          <div class="card-body">
+                              <div class="table-responsive">
+                                  <table class="table table-striped table-bordered first">
+                                      <thead>
+                                          <tr>
+                                              <th>Codigo</th>
+                                              <th>Concepto</th>
+                                              <th>Debe</th>
+                                              <th>Haber</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>`;
+      let movimientos = asiento.getMovimientos();
+      for(let movimiento of movimientos){
+        result += ` <tr><td>${movimiento.getCodigo()}</td>`;
+        
+        let debe = movimiento.getDebe();
+        let haber = movimiento.getHaber();
+        
+        if(debe.amount > 0){
+          result += `<td>${movimiento.getNombreCuenta()}</td>`;
+        }else{
+          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getNombreCuenta()}</td>`;
+        }
+        
+        result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
+      }
+      result += `                     </tbody>
+                                      <tfoot>`;
+      result += `                      </tfoot>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>`;
+    }
+    
+    document.getElementById("divListadoAsientos").innerHTML = result;
+    
+  }
+}
+
 jQuery(document).ready(function($) {
     'use strict';
 
@@ -162,9 +268,16 @@ jQuery(document).ready(function($) {
             format: 'L'
         });
     }
-    console.log(store)
-    autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
-    autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
+    
+    refreshStore();
+    console.log(store);
+    /*let obj = store.getObject();
+    let cuentas = obj.catalogo.cuentas;
+    console.log(cuentas);*/
+    autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCuentasHijas());
+    autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCuentasHijas());
+    
+    
     
     document.getElementById("btnAceptar").addEventListener("click",crearAsiento);
     document.getElementById("btnModificarAsiento").addEventListener("click",modificarAsiento);  
@@ -172,6 +285,11 @@ jQuery(document).ready(function($) {
     document.getElementById("btnAgregarMovimiento").addEventListener("click",agregarMovimiento);
     document.getElementById("numMontoMovimientoDebe").addEventListener("keyup",igualarHaber);
     document.getElementById("numMontoMovimientoHaber").addEventListener("keyup",igualarDebe);
-  
-    hidDivsExcept(divs, ['formCrearAsiento']);
+    
+    document.getElementById("btnGuardarAsiento").addEventListener("click", guardarAsiento);
+    document.getElementById("btnGuardarAsiento").disabled = true;
+    
+    mostrarLista();
+    
+    hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
 });

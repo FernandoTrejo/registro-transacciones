@@ -16,6 +16,7 @@ class Catalogo{
   }
   
   actualizarCuentas(){
+    this.cuentas = [];
     this.extraerCuentas(this.activo);
     this.extraerCuentas(this.pasivo);
     this.extraerCuentas(this.capital);
@@ -40,6 +41,7 @@ class Catalogo{
     
     if(response.found){
       response.cuenta.subcuentas.push(cuenta);
+      this.actualizarCuentas();
     }else{
       console.log("La cuenta solicitada no fue encontrada.");
     }

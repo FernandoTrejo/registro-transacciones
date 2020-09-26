@@ -73,11 +73,11 @@ function agregarCargo(){
     
     let btn = document.getElementById("btnAgregarCargo");
     if(btn.innerText == "Cargar"){
-      asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1));
+      asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, monto, 0, 1));
     }else{
       let indModify = Number(document.getElementById("indModifyCargo").value);
       let movimientos = asiento.getMovimientos();
-      movimientos[indModify] = new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1);
+      movimientos[indModify] = new Movimiento(codigoPartida, nombrePartida, monto, 0, 1);
       btn.innerText = "Cargar";
     }
     
@@ -98,11 +98,11 @@ function agregarAbono(){
     
     let btn = document.getElementById("btnAgregarAbono");
     if(btn.innerText == "Abonar"){
-      asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2));
+      asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, 0, monto,2));
     }else{
       let indModify = Number(document.getElementById("indModifyAbono").value);
       let movimientos = asiento.getMovimientos();
-      movimientos[indModify] = new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2);
+      movimientos[indModify] = new Movimiento(codigoContrapartida, nombreContrapartida, 0, monto,2);
       btn.innerText = "Abonar";
     }
     

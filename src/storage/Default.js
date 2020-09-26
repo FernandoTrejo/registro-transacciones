@@ -9,14 +9,18 @@ import {deudoras} from './catalogo/deudoras.js';
 import {cierre} from './catalogo/cierre.js';
 
 class Default{
-  constructor(){
-    this.catalogo = new Catalogo(activo,pasivo,capital,acreedoras,deudoras,cierre);
-    this.libroDiario = new LibroDiario();
+  constructor(catalogo = new Catalogo(activo,pasivo,capital,acreedoras,deudoras,cierre), libroDiario = new LibroDiario()){
+    this.catalogo = catalogo;
+    this.libroDiario = libroDiario;
     this.config = [];
   }
   
   getCatalogo(){
     return this.catalogo;
+  }
+  
+  getCuentasHijas(){
+    return this.catalogo.getCuentasHijas();
   }
   
   getLibroDiario(){
