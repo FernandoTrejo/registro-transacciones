@@ -44,11 +44,11 @@
               <!-- inicio form asiento -->
               <form id="formCrearAsiento">
                 <fieldset>
-                  <legend>Crear Asiento</legend>
+                  <legend id="legendAsiento">Crear Asiento</legend>
                   <div class="row">
                       <div class="col-xl-6 col-lg-6">
                           <div class="card">
-                              <!--<h5 class="card-header">Fecha Asiento</h5>-->
+                              
                               <div class="card-body border-top">
                                   <h5>Generales</h5>
                                   <div class="form-group">
@@ -91,13 +91,15 @@
               <!-- listado de asientos compuestos-->
             
               <div id="divListadoAsientos">
-                <div class="separator"></div>
               </div>
               
               <form id="formAgregarMovimiento" class="d-none">
                 <div class="separator"></div>
                 <fieldset>
                   <legend>Movimientos</legend>
+                  
+                  <!--input oculto para guardar id asiento modificado-->
+                  <input type="text" class="d-none" id="txtIndAsiento" value="-1" />
                   
                   <div class="row d-flex justify-content-center">
                     <div class="col-xl-6 col-lg-6">

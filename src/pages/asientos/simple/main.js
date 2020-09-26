@@ -320,7 +320,7 @@ function prepararFormMovimiento(){
   document.getElementById("txtContrapartidaCuenta").value = contrapartidaCuenta;
   document.getElementById("numMontoMovimientoDebe").value = movimientos[0].getDebe().amount;
   document.getElementById("numMontoMovimientoHaber").value = movimientos[1].getHaber().amount;
-  document.getElementById("btnAgregarMovimiento").innerText = "Actualizar"
+  document.getElementById("btnAgregarMovimiento").innerText = "Actualizar";
 }
 
 jQuery(document).ready(function($) {
