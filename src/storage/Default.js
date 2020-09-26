@@ -27,3 +27,5 @@ class Default{
     return this.config;
   }
 }
+
+export {Default};

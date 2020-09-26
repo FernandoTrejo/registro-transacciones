@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/vendor/datepicker/tempusdominus-bootstrap-4.css" />
     <!-- styles -->
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/busqueda.css" />
     <title>Asientos Compuesto</title>
 </head>
 
@@ -107,13 +108,8 @@
                                   <input type="text" class="d-none" id="indModifyCargo" value="" />
                                   
                                   <div class="form-group">
-                                      <div class="input-group" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtPartidaCodigo" placeholder="Código" />
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtPartidaCuenta" placeholder="Nombre" />
+                                      <div class="autocomplete" id="" data-target-input="nearest">
+                                          <input type="text" class="form-control" id="txtPartidaCuenta" placeholder="Buscar por código o nombre" />
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -138,13 +134,8 @@
                                   <input type="text" class="d-none" id="indModifyAbono" value="" />
                                   
                                   <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtContrapartidaCodigo" placeholder="Código"/>
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtContrapartidaCuenta" placeholder="Nombre"/>
+                                      <div class="autocomplete" id="" data-target-input="nearest">
+                                          <input type="text" class="form-control" id="txtContrapartidaCuenta" placeholder="Buscar por código o nombre"/>
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -220,6 +211,7 @@
     <script src="assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
     <script src="assets/vendor/datepicker/datepicker.js"></script>
     
+    <script src="src/pages/asientos/busqueda.js"></script>
     <script type="module" src="src/pages/asientos/compuesto/main.js"></script>
 </body>
  

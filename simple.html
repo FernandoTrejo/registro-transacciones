@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="assets/vendor/datepicker/tempusdominus-bootstrap-4.css" />
     <!-- styles -->
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/busqueda.css" />
+    
+    <!-- Inicio objeto store-->
+    <script type="module" src="src/pages/storage.js"></script>
     <title>Asientos Simple</title>
 </head>
 
@@ -90,11 +94,13 @@
               
               <!-- listado de asientos simples-->
             
-              <div id="divListadoAsientos">
+              <div id="divListadoAsientos" class="d-none">
                 <div class="separator"></div>
+                <h5 class="mb-0">Lista Asientos Compuestos</h5>
+                <div id="listaAsientos"></div>
               </div>
               
-              <form id="formAgregarMovimiento" class="d-none">
+              <form id="formAgregarMovimiento" class="d-none" autocomplete="off">
                 <div class="separator"></div>
                 <fieldset>
                   <legend>Movimientos</legend>
@@ -105,13 +111,8 @@
                               <div class="card-body border-top">
                                   <h5>Partida</h5>
                                   <div class="form-group">
-                                      <div class="input-group" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtPartidaCodigo" placeholder="Código" />
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtPartidaCuenta" placeholder="Nombre" />
+                                      <div class="autocomplete" id="" data-target-input="nearest">
+                                          <input type="text" class="form-control" id="txtPartidaCuenta" placeholder="Buscar por código o nombre" />
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -130,13 +131,8 @@
                               <div class="card-body border-top">
                                   <h5>Contrapartida</h5>
                                   <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtContrapartidaCodigo" placeholder="Código"/>
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <div class="input-group" id="" data-target-input="nearest">
-                                          <input type="text" class="form-control" id="txtContrapartidaCuenta" placeholder="Nombre"/>
+                                      <div class="autocomplete" id="" data-target-input="nearest">
+                                          <input type="text" class="form-control" id="txtContrapartidaCuenta" placeholder="Buscar por código o nombre" />
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -200,6 +196,7 @@
     </div>
     
     <script src="src/pages/global.js"></script>
+
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->
     <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
@@ -215,6 +212,7 @@
     <script src="assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
     <script src="assets/vendor/datepicker/datepicker.js"></script>
     
+    <script src="src/pages/asientos/busqueda.js"></script>
     <script type="module" src="src/pages/asientos/simple/main.js"></script>
 </body>
  

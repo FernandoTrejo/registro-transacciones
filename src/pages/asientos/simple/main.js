@@ -2,8 +2,15 @@ import { Money } from '../../../clases/Money.js';
 import { Movimiento } from '../../../clases/Movimiento.js';
 import { Asiento } from '../../../clases/Asiento.js';
 import { LibroDiario } from '../../../clases/LibroDiario.js';
+import { Storage } from '../../../storage/Storage.js';
 
+//almacen de datos
+let store = Storage.getInstance('empresa1');
+
+//objeto asiento que se usara globalmente
 let asiento = null;
+
+//lista de divs principales de la pagina
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
 
 function crearAsiento(){
@@ -40,9 +47,7 @@ function cancelarAsiento(){
   document.getElementById("divFooterTabla").innerHTML = "";
   document.getElementById("numMontoMovimientoDebe").value = "";
   document.getElementById("numMontoMovimientoHaber").value = "";
-  document.getElementById("txtPartidaCodigo").value = "";
   document.getElementById("txtPartidaCuenta").value = "";
-  document.getElementById("txtContrapartidaCodigo").value = ""; 
   document.getElementById("txtContrapartidaCuenta").value = "";
   document.getElementById("dateFechaAsiento").value = "";
   document.getElementById("txtNombreAsiento").value = "";
@@ -57,17 +62,22 @@ function cancelarAsiento(){
 function agregarMovimiento(){
   if(validarCamposMovimiento()){
     let monto = document.getElementById("numMontoMovimientoDebe").value;
-    let partidaCodigo = document.getElementById("txtPartidaCodigo").value;
     let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
-    let contrapartidaCodigo = document.getElementById("txtContrapartidaCodigo").value;
+    let partesPartidaCuenta = partidaCuenta.trim().split("-");
+    let nombrePartida = partesPartidaCuenta[1].trim();
+    let codigoPartida = partesPartidaCuenta[0].trim();
+    
     let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
+    let partesContrapartidaCuenta = contrapartidaCuenta.trim().split("-");
+    let nombreContrapartida = partesContrapartidaCuenta[1].trim();
+    let codigoContrapartida = partesContrapartidaCuenta[0].trim();
     
     if(asiento.tieneMovimientos()){
       asiento.vaciarMovimientos();
     }
     
-    asiento.addMovimiento(new Movimiento(partidaCodigo, partidaCuenta, new Money(monto), new Money(0), 1));
-    asiento.addMovimiento(new Movimiento(contrapartidaCodigo, contrapartidaCuenta, new Money(0), new Money(monto),2));
+    asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1));
+    asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2));
     
     let btn = document.getElementById("btnAgregarMovimiento");
     btn.innerText = "Actualizar";
@@ -84,13 +94,7 @@ function validarCamposMovimiento(){
   if(monto == "" || Number(monto) == 0){
     return false;
   }
-  if(document.getElementById("txtPartidaCodigo").value == ""){
-    return false;
-  }
   if(document.getElementById("txtPartidaCuenta").value == ""){
-    return false;
-  }
-  if(document.getElementById("txtContrapartidaCodigo").value == ""){
     return false;
   }
   if(document.getElementById("txtContrapartidaCuenta").value == ""){
@@ -157,8 +161,10 @@ jQuery(document).ready(function($) {
         $('#datepicker').datetimepicker({
             format: 'L'
         });
-
     }
+    console.log(store)
+    autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
+    autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
     
     document.getElementById("btnAceptar").addEventListener("click",crearAsiento);
     document.getElementById("btnModificarAsiento").addEventListener("click",modificarAsiento);  

@@ -11,6 +11,10 @@ class Catalogo{
     this.actualizarCuentas();
   }
   
+  getCuentasHijas(){
+    return this.cuentas;
+  }
+  
   actualizarCuentas(){
     this.extraerCuentas(this.activo);
     this.extraerCuentas(this.pasivo);

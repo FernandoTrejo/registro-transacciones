@@ -2,8 +2,15 @@ import { Money } from '../../../clases/Money.js';
 import { Movimiento } from '../../../clases/Movimiento.js';
 import { Asiento } from '../../../clases/Asiento.js';
 import { LibroDiario } from '../../../clases/LibroDiario.js';
+import { Storage } from '../../../storage/Storage.js';
 
+//almacen de datos
+let store = Storage.getInstance('empresa1');
+
+//objeto asiento que se usara globalmente
 let asiento = null;
+
+//lista de divs principales de la pagina
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
 
 function crearAsiento(){
@@ -47,13 +54,11 @@ function cancelarAsiento(){
 
 function limpiarFormCargo(){
   document.getElementById("numMontoMovimientoDebe").value = "";
-  document.getElementById("txtPartidaCodigo").value = "";
   document.getElementById("txtPartidaCuenta").value = "";
 }
 
 function limpiarFormAbono(){
   document.getElementById("numMontoMovimientoHaber").value = "";
-  document.getElementById("txtContrapartidaCodigo").value = ""; 
   document.getElementById("txtContrapartidaCuenta").value = "";
 }
 
@@ -61,16 +66,18 @@ function limpiarFormAbono(){
 function agregarCargo(){
   if(validarCamposCargo()){
     let monto = document.getElementById("numMontoMovimientoDebe").value;
-    let partidaCodigo = document.getElementById("txtPartidaCodigo").value;
     let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
+    let partesPartidaCuenta = partidaCuenta.trim().split("-");
+    let nombrePartida = partesPartidaCuenta[1].trim();
+    let codigoPartida = partesPartidaCuenta[0].trim();
     
     let btn = document.getElementById("btnAgregarCargo");
     if(btn.innerText == "Cargar"){
-      asiento.addMovimiento(new Movimiento(partidaCodigo, partidaCuenta, new Money(monto), new Money(0), 1));
+      asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1));
     }else{
       let indModify = Number(document.getElementById("indModifyCargo").value);
       let movimientos = asiento.getMovimientos();
-      movimientos[indModify] = new Movimiento(partidaCodigo, partidaCuenta, new Money(monto), new Money(0), 1);
+      movimientos[indModify] = new Movimiento(codigoPartida, nombrePartida, new Money(monto), new Money(0), 1);
       btn.innerText = "Cargar";
     }
     
@@ -84,16 +91,18 @@ function agregarCargo(){
 function agregarAbono(){
   if(validarCamposAbono()){
     let monto = document.getElementById("numMontoMovimientoHaber").value;
-    let contrapartidaCodigo = document.getElementById("txtContrapartidaCodigo").value;
     let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
+    let partesContrapartidaCuenta = contrapartidaCuenta.trim().split("-");
+    let nombreContrapartida = partesContrapartidaCuenta[1].trim();
+    let codigoContrapartida = partesContrapartidaCuenta[0].trim();
     
     let btn = document.getElementById("btnAgregarAbono");
     if(btn.innerText == "Abonar"){
-      asiento.addMovimiento(new Movimiento(contrapartidaCodigo, contrapartidaCuenta, new Money(0), new Money(monto),2));
+      asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2));
     }else{
       let indModify = Number(document.getElementById("indModifyAbono").value);
       let movimientos = asiento.getMovimientos();
-      movimientos[indModify] = new Movimiento(contrapartidaCodigo, contrapartidaCuenta, new Money(0), new Money(monto),2);
+      movimientos[indModify] = new Movimiento(codigoContrapartida, nombreContrapartida, new Money(0), new Money(monto),2);
       btn.innerText = "Abonar";
     }
     
@@ -110,16 +119,16 @@ function modificarMovimiento(id){
   switch (Number(movimiento.getTipo())) {
     case 1:
       document.getElementById("numMontoMovimientoDebe").value = movimiento.getDebe().amount;
-      document.getElementById("txtPartidaCodigo").value = movimiento.getCodigo();
-      document.getElementById("txtPartidaCuenta").value = movimiento.getNombreCuenta();
+      let partidaCuenta = `${movimiento.getCodigo()} - ${movimiento.getNombreCuenta()}`;
+      document.getElementById("txtPartidaCuenta").value =  partidaCuenta;
       document.getElementById("btnAgregarCargo").innerText = "Actualizar";
       document.getElementById("indModifyCargo").value = id;
       break;
     
     case 2:
       document.getElementById("numMontoMovimientoHaber").value = movimiento.getHaber().amount;
-      document.getElementById("txtContrapartidaCodigo").value = movimiento.getCodigo();
-      document.getElementById("txtContrapartidaCuenta").value = movimiento.getNombreCuenta();
+      let contrapartidaCuenta = `${movimiento.getCodigo()} - ${movimiento.getNombreCuenta()}`;
+      document.getElementById("txtContrapartidaCuenta").value = contrapartidaCuenta;
       document.getElementById("btnAgregarAbono").innerText = "Actualizar";
       document.getElementById("indModifyAbono").value = id;
       break;
@@ -136,9 +145,6 @@ function validarCamposCargo(){
   if(monto == "" || Number(monto) == 0){
     return false;
   }
-  if(document.getElementById("txtPartidaCodigo").value == ""){
-    return false;
-  }
   if(document.getElementById("txtPartidaCuenta").value == ""){
     return false;
   }
@@ -149,9 +155,6 @@ function validarCamposCargo(){
 function validarCamposAbono(){
   let monto = document.getElementById("numMontoMovimientoHaber").value;
   if(monto == "" || Number(monto) == 0){
-    return false;
-  }
-  if(document.getElementById("txtContrapartidaCodigo").value == ""){
     return false;
   }
   if(document.getElementById("txtContrapartidaCuenta").value == ""){
@@ -236,6 +239,9 @@ jQuery(document).ready(function($) {
         });
 
     }
+    
+    autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
+    autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
     
     document.getElementById("btnAceptar").addEventListener("click",crearAsiento);
     document.getElementById("btnModificarAsiento").addEventListener("click",modificarAsiento);  
