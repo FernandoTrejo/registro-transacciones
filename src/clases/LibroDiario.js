@@ -26,13 +26,16 @@ class LibroDiario{
   }
   
   removeAsiento(indice){
-    //eliminar
+    this.asientos.splice(indice,1);
   }
   
   ordenarPorFecha(){
     this.asientos.sort(((a,b)=> a.fecha - b.fecha));
   }
   
+  buscarAsiento(id){
+    return this.asientos[id];
+  }
   
   calcular(){
     if(this.asientos.length > 0){

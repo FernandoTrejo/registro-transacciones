@@ -2,7 +2,8 @@ import {Money} from './Money.js';
 
 class Asiento{
   constructor(fecha, concepto, comentarios = "", tipo = 1, movimientos=[]){ //tipo 1. simple, 2.compuesto
-    this.fecha = fecha;
+    this.fecha = new Date(fecha);
+    this.fechaString = fecha;
     this.concepto = concepto;
     this.comentarios = comentarios;
     this.tipo = tipo;
@@ -13,6 +14,10 @@ class Asiento{
   }
   getComentarios(){
     return this.comentarios;
+  }
+  
+  getFechaString(){
+    return this.fechaString;
   }
   
   setComentarios(comentarios){
@@ -28,7 +33,8 @@ class Asiento{
   }
   
   setFecha(fecha){
-    this.fecha = fecha;
+    this.fechaString = fecha;
+    this.fecha = new Date(fecha);
   }
   
   getConcepto(){

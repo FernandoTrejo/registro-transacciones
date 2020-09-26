@@ -27,29 +27,41 @@ function crearAsiento(){
     let comentario = document.getElementById("txtComentariosAsiento").value;
     
     if(asiento === null){
-      asiento = new Asiento(new Date(fecha), nombre, comentario);
+      asiento = new Asiento(fecha, nombre, comentario);
     }else{
-      asiento.setFecha(new Date(fecha));
+      asiento.setFecha(fecha);
       asiento.setComentarios(comentario);
       asiento.setConcepto(nombre);
     }
     
-    document.getElementById("headerAsiento").innerHTML = `<b>Concepto:</b> ${asiento.getConcepto()}`;
-    document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFecha()}`;
-    document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
-    console.log(asiento);
+    mostrarDatosAsiento();
     hidDivsExcept(divs, ['formAgregarMovimiento','divMovimientos']);
   }else{
     console.log("algo incorrecto");
   }
 }
 
+function mostrarDatosAsiento(){
+  document.getElementById("headerAsiento").innerHTML = `<b>Concepto:</b> ${asiento.getConcepto()}`;
+  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFecha()}`;
+  document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
+}
+
+function mostrarDatosAsientoForm(){
+  document.getElementById("legendAsiento").innerText = "Modificar Asiento";
+  document.getElementById("txtNombreAsiento").value = asiento.getConcepto();
+  document.getElementById("dateFechaAsiento").value = asiento.getFechaString();
+  document.getElementById("txtComentariosAsiento").value = asiento.getComentarios();
+}
+
 function modificarAsiento(){
+  document.getElementById("legendAsiento").innerText = "Modificar Asiento";
   hidDivsExcept(divs, ['formCrearAsiento']);
 }
 
 //limpiar
 function limpiarCamposAsiento(){
+  document.getElementById("legendAsiento").innerText = "Crear Asiento";
   document.getElementById("dateFechaAsiento").value = "";
   document.getElementById("txtNombreAsiento").value = "";
   document.getElementById("txtComentariosAsiento").value = "";
@@ -62,6 +74,7 @@ function limpiarCamposMovimiento(){
   document.getElementById("txtContrapartidaCuenta").value = "";
   document.getElementById("btnGuardarAsiento").disabled = true;
   document.getElementById("btnAgregarMovimiento").innerText = "Añadir";
+  document.getElementById("txtIndAsiento").value = "-1";
 }
 
 function limpiarDivsMovimiento(){
@@ -75,17 +88,20 @@ function cancelarAsiento(){
   limpiarCamposMovimiento();
   limpiarCamposAsiento();
   
-  let btn = document.getElementById("btnAgregarMovimiento");
-  btn.innerText = "Añadir";
-  
-  hidDivsExcept(divs, ['formCrearAsiento']);
+  hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
 }
 
 function guardarAsiento(){
   if(asiento != null){
-    store.getObject().getLibroDiario().getAsientos().push(asiento);
-    store.save();
-    refreshStore();
+    let indAsiento = Number(document.getElementById("txtIndAsiento").value);
+    if(indAsiento != -1){
+      store.save();
+      refreshStore();
+    }else{
+      store.getObject().getLibroDiario().getAsientos().push(asiento);
+      store.save();
+      refreshStore();
+    }
     
     limpiarDivsMovimiento();
     limpiarCamposMovimiento();
@@ -194,16 +210,22 @@ function igualarHaber(){
 }
 
 function mostrarLista(){
-  console.log(localStorage)
   let asientos = store.getObject().getLibroDiario().getAsientos();
-  console.log(store)
+  let resultDefault = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento simple guardado.</h5>`;
+  let result = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos Simples</h5>`;
+  let hayAsientosSimples = false;
+  
   if(asientos.length > 0){
-    let result = `<div class="separator"></div><h5 class="mb-0">Lista Asientos Simples</h5>`;
+    let ind = 0;
     for(let asiento of asientos){
-      console.log(asiento)
       if(Number(asiento.getTipo()) != 1){
+        ind++;
         continue;
       }
+      hayAsientosSimples = true;
+      let idBtnDelete = `delete-asi-${ind}`;
+      let idBtnModify = `modify-asi-${ind}`;
+      
       result += `<div class="separator"></div>`;
       result += `<div class="row">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -212,8 +234,8 @@ function mostrarLista(){
                               <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
                               <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
                               <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
-                              <button type="button" class="btn btn-info" id="">Modificar</button>
-                              <button type="button" class="btn btn-danger" id="">Eliminar</button>
+                              <button type="button" class="btn btn-info modify-asi" id="${idBtnModify}">Modificar</button>
+                              <button type="button" class="btn btn-danger delete-asi" id="${idBtnDelete}">Eliminar</button>
                           </div>
                           <div class="card-body">
                               <div class="table-responsive">
@@ -251,11 +273,54 @@ function mostrarLista(){
                       </div>
                   </div>
               </div>`;
+      ind++;
     }
     
-    document.getElementById("divListadoAsientos").innerHTML = result;
-    
   }
+  //agregar html al div
+  document.getElementById("divListadoAsientos").innerHTML = (hayAsientosSimples) ? result : resultDefault;
+  
+  document.querySelectorAll('.delete-asi').forEach(item => {
+    item.addEventListener('click', event => {
+      let res = item.id.split("-");
+      eliminarAsiento(res[2]);
+    })
+  });
+  document.querySelectorAll('.modify-asi').forEach(item => {
+    item.addEventListener('click', event => {
+      let res = item.id.split("-");
+      modificarAsientoLista(res[2]);
+    })
+  });
+}
+
+function eliminarAsiento(id){
+  store.getObject().getLibroDiario().removeAsiento(id);
+  store.save();
+  refreshStore();
+  mostrarLista();
+}
+
+function modificarAsientoLista(id){
+  asiento = store.getObject().getLibroDiario().buscarAsiento(id);
+  document.getElementById("txtIndAsiento").value = id;
+  prepararFormMovimiento();
+  mostrarDatosAsiento();
+  mostrarDatosAsientoForm();
+  actualizarDivMovimientos();
+  hidDivsExcept(divs, ['formAgregarMovimiento','divMovimientos']);
+}
+
+function prepararFormMovimiento(){
+  let movimientos = asiento.getMovimientos();
+  let partidaCuenta = `${movimientos[0].getCodigo()} - ${movimientos[0].getNombreCuenta()}`;
+  let contrapartidaCuenta = `${movimientos[1].getCodigo()} - ${movimientos[1].getNombreCuenta()}`;
+  
+  document.getElementById("txtPartidaCuenta").value = partidaCuenta;
+  document.getElementById("txtContrapartidaCuenta").value = contrapartidaCuenta;
+  document.getElementById("numMontoMovimientoDebe").value = movimientos[0].getDebe().amount;
+  document.getElementById("numMontoMovimientoHaber").value = movimientos[1].getHaber().amount;
+  document.getElementById("btnAgregarMovimiento").innerText = "Actualizar"
 }
 
 jQuery(document).ready(function($) {

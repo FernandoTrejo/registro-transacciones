@@ -18,10 +18,8 @@ class Storage{
       
   static getInstance(name){
     if(!Storage.sessionExists(name)){
-      alert("no existe la sesion")
       return new Storage(name, new Default());
     }
-    alert("existe")
     return Storage.buildStorageObject(name,Storage.parseJSON(name));
   }
   
@@ -44,7 +42,7 @@ class Storage{
       for(let movimiento of asiento.movimientos){
         movimientos.push(new Movimiento(movimiento.codigo, movimiento.nombreCuenta, Number(movimiento.debe.quantity), Number(movimiento.haber.quantity), Number(movimiento.tipo)));
       }
-      asientos.push(new Asiento(new Date(asiento.fecha), asiento.concepto, asiento.comentarios, Number(asiento.tipo), movimientos));
+      asientos.push(new Asiento(asiento.fechaString, asiento.concepto, asiento.comentarios, Number(asiento.tipo), movimientos));
     }
     let libroDiario = new LibroDiario(asientos);
     
