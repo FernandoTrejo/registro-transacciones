@@ -76,6 +76,10 @@ function limpiarCamposMovimiento(){
   document.getElementById("btnGuardarAsiento").disabled = true;
   document.getElementById("btnAgregarMovimiento").innerText = "Añadir";
   document.getElementById("txtIndAsiento").value = "-1";
+  document.getElementById("montoCargoErroresBlock").innerText = "";
+  document.getElementById("montoAbonoErroresBlock").innerText = "";
+  document.getElementById("cargoErroresBlock").innerText = "";
+  document.getElementById("abonoErroresBlock").innerText = "";
 }
 
 function limpiarDivsMovimiento(){
@@ -154,17 +158,61 @@ function agregarMovimiento(){
 
 function validarCamposMovimiento(){
   let monto = document.getElementById("numMontoMovimientoDebe").value;
-  if(monto == "" || Number(monto) == 0){
+  let cuentaCargo = document.getElementById("txtPartidaCuenta").value;
+  let cuentaAbono = document.getElementById("txtContrapartidaCuenta").value;
+  let cuentas = store.getObject().getCuentasHijas();
+  if(!verificarDispCuentas(cuentaCargo,cuentaAbono,cuentas)){
     return false;
   }
-  if(document.getElementById("txtPartidaCuenta").value == ""){
+  if(monto == "" || Number(monto) <= 0){
     return false;
   }
-  if(document.getElementById("txtContrapartidaCuenta").value == ""){
+  if(cuentaCargo.trim() == ""){
+    return false;
+  }
+  if(cuentaAbono.trim() == ""){
+    return false;
+  }
+  if(cuentaAbono.trim() == cuentaCargo.trim()){
     return false;
   }
   
   return true;
+}
+
+function verificarDispCuentas(cuentaCargo,cuentaAbono,cuentas){
+  let msgCargo = "";
+  let msgAbono = "";
+  let res = true;
+  if(!cuentas.includes(cuentaCargo.trim())){
+    msgCargo = "Esta cuenta no existe en el catálogo.";
+    res = false;
+  }else if(cuentaCargo.trim() == cuentaAbono.trim()){
+    msgCargo = "No puede elegir la misma cuenta en ambos lados.";
+    res = false;
+  }
+  
+  if(!cuentas.includes(cuentaAbono.trim())){
+    msgAbono = "Esta cuenta no existe en el catálogo.";
+    res = false;
+  }else if(cuentaCargo.trim() == cuentaAbono.trim()){
+    msgAbono = "No puede elegir la misma cuenta en ambos lados.";
+    res = false;
+  }
+  
+  document.getElementById("cargoErroresBlock").innerText = msgCargo;
+  document.getElementById("abonoErroresBlock").innerText = msgAbono;
+  return res;
+}
+function verificarMontos(){
+  let montoCargo = document.getElementById("numMontoMovimientoDebe").value;
+  let msg = "";
+  if(Number(montoCargo) <= 0){
+    msg = "Los montos no pueden ser menores o iguales a 0.";
+  }
+  
+  document.getElementById("montoCargoErroresBlock").innerText = msg;
+  document.getElementById("montoAbonoErroresBlock").innerText = msg;
 }
 
 function validarCampos(){
@@ -211,11 +259,13 @@ function actualizarDivMovimientos(){
 }
 
 function igualarDebe(){
-  document.getElementById("numMontoMovimientoDebe").value = document.getElementById("numMontoMovimientoHaber").value;
+  document.getElementById("numMontoMovimientoDebe").value = String(document.getElementById("numMontoMovimientoHaber").value);
+  verificarMontos();
 }
 
 function igualarHaber(){
-  document.getElementById("numMontoMovimientoHaber").value = document.getElementById("numMontoMovimientoDebe").value;
+  document.getElementById("numMontoMovimientoHaber").value = String(document.getElementById("numMontoMovimientoDebe").value);
+  verificarMontos();
 }
 
 function mostrarLista(){
@@ -374,7 +424,7 @@ jQuery(document).ready(function($) {
     
     document.getElementById("btnGuardarAsiento").addEventListener("click", guardarAsiento);
     document.getElementById("btnGuardarAsiento").disabled = true;
-    
+  
     mostrarLista();
     
     hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
