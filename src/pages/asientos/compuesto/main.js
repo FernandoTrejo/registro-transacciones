@@ -75,11 +75,15 @@ function cancelarAsiento(){
 function limpiarFormCargo(){
   document.getElementById("numMontoMovimientoDebe").value = "";
   document.getElementById("txtPartidaCuenta").value = "";
+  document.getElementById("montoCargoErroresBlock").innerText = "";
+  document.getElementById("cargoErroresBlock").innerText = "";
 } 
 
 function limpiarFormAbono(){
   document.getElementById("numMontoMovimientoHaber").value = "";
   document.getElementById("txtContrapartidaCuenta").value = "";
+  document.getElementById("montoAbonoErroresBlock").innerText = "";
+  document.getElementById("abonoErroresBlock").innerText = "";
 }
 
 function limpiarDivsMovimiento(){
@@ -171,9 +175,67 @@ function eliminarMovimiento(id){
   actualizarDivMovimientos();
 }
 
+function cuentaEnUso(cuenta){ // dentro de la transaccion
+  let encontrada = false;
+  
+  let movs = asiento.getMovimientos();
+  if(movs.length > 0){
+    for(let mov of movs){
+      let cuentaName = mov.getCodigo() + " - " + mov.getNombreCuenta();
+      if(cuentaName.trim() == cuenta){
+        encontrada = true;
+        break;
+      }
+    }
+  }
+  return encontrada;
+}
+
+function verificarDispCuentas(cuenta,cuentas,tipo){
+  let msg = "";
+  let res = true;
+  if(!cuentas.includes(cuenta.trim())){
+    msg = "Esta cuenta no existe en el catálogo.";
+    res = false;
+  }else if(cuentaEnUso(cuenta.trim())){
+    msg = "Esta cuenta ya está siendo usada.";
+    res = false;
+  }
+  
+  if(Number(tipo) == 1){
+    document.getElementById("cargoErroresBlock").innerText = msg;
+  }else{
+    document.getElementById("abonoErroresBlock").innerText = msg;
+  }
+  return res;
+}
+function verificarMontoCargo(){
+  let montoCargo = document.getElementById("numMontoMovimientoDebe").value;
+  let msg = "";
+  if(Number(montoCargo) <= 0){
+    msg = "Los montos no pueden ser menores o iguales a 0.";
+  }
+  
+  document.getElementById("montoCargoErroresBlock").innerText = msg;
+}
+function verificarMontoAbono(){
+  let montoAbono = document.getElementById("numMontoMovimientoHaber").value;
+  let msg = "";
+  if(Number(montoAbono) <= 0){
+    msg = "Los montos no pueden ser menores o iguales a 0.";
+  }
+  
+  document.getElementById("montoAbonoErroresBlock").innerText = msg;
+}
+
 function validarCamposCargo(){
   let monto = document.getElementById("numMontoMovimientoDebe").value;
-  if(monto == "" || Number(monto) == 0){
+  let cuentaCargo = document.getElementById("txtPartidaCuenta").value;
+  let cuentas = store.getObject().getCuentasHijas();
+  if(!verificarDispCuentas(cuentaCargo,cuentas,1)){
+    return false;
+  }
+  if(monto == "" || Number(monto) <= 0){
     return false;
   }
   if(document.getElementById("txtPartidaCuenta").value == ""){
@@ -185,7 +247,12 @@ function validarCamposCargo(){
 
 function validarCamposAbono(){
   let monto = document.getElementById("numMontoMovimientoHaber").value;
-  if(monto == "" || Number(monto) == 0){
+  let cuentaAbono = document.getElementById("txtContrapartidaCuenta").value;
+  let cuentas = store.getObject().getCuentasHijas();
+  if(!verificarDispCuentas(cuentaAbono,cuentas,2)){
+    return false;
+  }
+  if(monto == "" || Number(monto) <= 0){
     return false;
   }
   if(document.getElementById("txtContrapartidaCuenta").value == ""){
@@ -432,6 +499,8 @@ jQuery(document).ready(function($) {
     document.getElementById("btnCancelarAsiento").addEventListener("click",cancelarAsiento);  
     document.getElementById("btnAgregarAbono").addEventListener("click",agregarAbono);
     document.getElementById("btnAgregarCargo").addEventListener("click",agregarCargo);
+    document.getElementById("numMontoMovimientoDebe").addEventListener("keyup",verificarMontoCargo);
+    document.getElementById("numMontoMovimientoHaber").addEventListener("keyup",verificarMontoAbono);
     document.getElementById("btnGuardarAsiento").addEventListener("click",guardarAsiento);
     document.getElementById("btnGuardarAsiento").disabled = false;
     

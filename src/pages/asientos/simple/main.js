@@ -406,10 +406,6 @@ jQuery(document).ready(function($) {
     }
     
     refreshStore();
-    console.log(store);
-    /*let obj = store.getObject();
-    let cuentas = obj.catalogo.cuentas;
-    console.log(cuentas);*/
     autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCuentasHijas());
     autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCuentasHijas());
     
