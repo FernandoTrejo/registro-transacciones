@@ -365,7 +365,7 @@ function mostrarLista(){
                                   <i class="fas fa-trash-alt" aria-hidden="true"></i>
                                 </button>
                               </div>
-                            </div
+                            </div>
                           </div>
                           <div class="card-body">
                               <div class="table-responsive">
