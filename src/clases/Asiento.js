@@ -7,7 +7,8 @@ class Asiento{
     this.concepto = concepto;
     this.comentarios = comentarios;
     this.tipo = tipo;
-    this.movimientos = movimientos;
+    this.movimientos = [];
+    this.importarConjunto(movimientos);
     this.debe = new Money(0);
     this.haber = new Money(0);
     this.calcular();
@@ -61,6 +62,14 @@ class Asiento{
     movimiento.setFecha(this.fecha);
     movimiento.setConcepto(this.concepto);
     this.movimientos.push(movimiento);
+  }
+  
+  importarConjunto(movimientos){
+    if(movimientos.length > 0){
+      for(let mov of movimientos){
+        this.addMovimiento(mov);
+      }
+    }
   }
   
   removeMovimiento(indice){

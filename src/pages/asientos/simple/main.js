@@ -12,6 +12,7 @@ let store = null;
 
 //objeto asiento que se usara globalmente
 let asiento = null;
+let asientoCopy = null;//para respaldo
 
 //lista de divs principales de la pagina
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
@@ -83,6 +84,14 @@ function limpiarDivsMovimiento(){
 }
 
 function cancelarAsiento(){
+  let ind = Number(document.getElementById("txtIndAsiento").value);
+  if(ind != -1){
+    let asientos = store.getObject().getLibroDiario().getAsientos();
+    asientos[ind] = $.extend(true,{},asientoCopy);
+    store.save();
+    refreshStore();
+  }
+  document.getElementById("txtIndAsiento").value = "-1";
   asiento = null;
   limpiarDivsMovimiento();
   limpiarCamposMovimiento();
@@ -211,8 +220,8 @@ function igualarHaber(){
 
 function mostrarLista(){
   let asientos = store.getObject().getLibroDiario().getAsientos();
-  let resultDefault = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento simple guardado.</h5>`;
-  let result = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos Simples</h5>`;
+  let resultDefault = `<div class="separator"></div><div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento simple guardado.</h5>`;
+  let result = `<div class="separator"></div><div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos Simples</h5>`;
   let hayAsientosSimples = false;
   
   if(asientos.length > 0){
@@ -231,11 +240,21 @@ function mostrarLista(){
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div class="card">
                           <div class="card-header">
-                              <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
-                              <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
-                              <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
-                              <button type="button" class="btn btn-info modify-asi" id="${idBtnModify}">Modificar</button>
-                              <button type="button" class="btn btn-danger delete-asi" id="${idBtnDelete}">Eliminar</button>
+                            <div class="d-flex">
+                              <div class="d-block">
+                                <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
+                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
+                                <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
+                              </div>
+                              <div class="d-block ml-auto">
+                                <button style="margin: 4px 1px" type="button" class="btn btn-info btn-sm modify-asi" id="${idBtnModify}">
+                                  <i class="fas fa-edit" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm delete-asi" id="${idBtnDelete}">
+                                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                           <div class="card-body">
                               <div class="table-responsive">
@@ -303,6 +322,8 @@ function eliminarAsiento(id){
 
 function modificarAsientoLista(id){
   asiento = store.getObject().getLibroDiario().buscarAsiento(id);
+  asientoCopy = $.extend(true,{},asiento);
+  
   document.getElementById("txtIndAsiento").value = id;
   prepararFormMovimiento();
   mostrarDatosAsiento();

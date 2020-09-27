@@ -22,9 +22,9 @@ function crearAsiento(){
     let comentario = document.getElementById("txtComentariosAsiento").value;
     
     if(asiento === null){
-      asiento = new Asiento(new Date(fecha), nombre, comentario, 2);
+      asiento = new Asiento(fecha, nombre, comentario, 2);
     }else{
-      asiento.setFecha(new Date(fecha));
+      asiento.setFecha(fecha);
       asiento.setComentarios(comentario);
       asiento.setConcepto(nombre);
     }
@@ -55,19 +55,27 @@ function modificarAsiento(){
 }
 
 function cancelarAsiento(){
-  asiento = Object.create(asientoCopy);
+  let ind = Number(document.getElementById("txtIndAsiento").value);
+  if(ind != -1){ //significa que se estaba tratando de modificar
+    let asientos = store.getObject().getLibroDiario().getAsientos();
+    asientos[ind] = $.extend(true,{},asientoCopy);
+    store.save();
+    refreshStore();
+  }
+  document.getElementById("txtIndAsiento").value = "-1";
   asiento = null;
   limpiarFormCargo();
   limpiarFormAbono();
   limpiarDivsMovimiento();
   limpiarCamposAsiento();
   hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
+  
 }
 
 function limpiarFormCargo(){
   document.getElementById("numMontoMovimientoDebe").value = "";
   document.getElementById("txtPartidaCuenta").value = "";
-}
+} 
 
 function limpiarFormAbono(){
   document.getElementById("numMontoMovimientoHaber").value = "";
@@ -276,11 +284,21 @@ function mostrarLista(){
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div class="card">
                           <div class="card-header">
-                              <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
-                              <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
-                              <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
-                              <button type="button" class="btn btn-info modify-asi" id="${idBtnModify}">Modificar</button>
-                              <button type="button" class="btn btn-danger delete-asi" id="${idBtnDelete}">Eliminar</button>
+                            <div class="d-flex">
+                              <div class="d-block">
+                                <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
+                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
+                                <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
+                              </div>
+                              <div class="d-block ml-auto">
+                                <button style="margin: 4px 1px" type="button" class="btn btn-info btn-sm modify-asi" id="${idBtnModify}">
+                                  <i class="fas fa-edit" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm delete-asi" id="${idBtnDelete}">
+                                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div
                           </div>
                           <div class="card-body">
                               <div class="table-responsive">
@@ -361,7 +379,7 @@ function guardarAsiento(){
     }
     
     limpiarDivsMovimiento();
-    document.getElementById("txtIndAsiento").value == "-1";
+    document.getElementById("txtIndAsiento").value = "-1";
     limpiarFormAbono();
     limpiarFormCargo();
     limpiarCamposAsiento();
@@ -381,8 +399,7 @@ function eliminarAsiento(id){
 
 function modificarAsientoLista(id){
   asiento = store.getObject().getLibroDiario().buscarAsiento(id);
-  
-  asientoCopy = Object.create(asiento);
+  asientoCopy = $.extend(true,{},asiento);
   
   document.getElementById("txtIndAsiento").value = id;
   limpiarFormAbono();

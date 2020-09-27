@@ -8,7 +8,8 @@ class LibroMayor{
   
   calcular(movimientosCuentas){
     for(let codigo in movimientosCuentas){
-      let cuenta = new Cuenta(codigo, 'pendiente', movimientosCuentas[codigo]);
+      let movs = movimientosCuentas[codigo];
+      let cuenta = new Cuenta(codigo, movs[0].getNombreCuenta(), movs);
       cuenta.calculate();
       this.cuentas.push(cuenta);
     }
