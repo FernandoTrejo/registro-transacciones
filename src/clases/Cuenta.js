@@ -9,6 +9,18 @@ class Cuenta{
     this.debe = new Money(0);
   }
   
+  getCodigo(){
+    return this.codigo;
+  }
+  
+  getTitular(){
+    return this.titular;
+  }
+  
+  getMovimientos(){
+    return this.movimientos;
+  }
+  
   cargar(){}
   abonar(){}
   
@@ -37,6 +49,10 @@ class Cuenta{
   
   getHaber(){
     return this.haber;
+  }
+  
+  estaBalanceada(){
+    return this.debe.amount === this.haber.amount;
   }
   
   tieneMovimientos(){

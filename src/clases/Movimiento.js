@@ -3,6 +3,7 @@ import {Money} from './Money.js';
 class Movimiento{
   constructor(codigo, nombreCuenta, debe, haber, tipo){
     this.fecha = "";
+    this.fechaString = "";
     this.concepto = "";
     this.nombreCuenta = nombreCuenta;
     this.codigo = codigo;
@@ -11,8 +12,12 @@ class Movimiento{
     this.tipo = tipo;
   }
   
+  getFechaString(){
+    return this.fechaString;
+  }
   setFecha(fecha){
-    this.fecha = fecha;
+    this.fechaString = fecha;
+    this.fecha = new Date(fecha);
   }
   
   getFecha(){

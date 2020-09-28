@@ -59,7 +59,7 @@ class Asiento{
   }
   
   addMovimiento(movimiento){
-    movimiento.setFecha(this.fecha);
+    movimiento.setFecha(this.fechaString);
     movimiento.setConcepto(this.concepto);
     this.movimientos.push(movimiento);
   }

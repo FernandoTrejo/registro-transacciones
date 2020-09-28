@@ -1,20 +1,18 @@
 import { Storage } from '../../../storage/Storage.js';
-import { LibroMayor } from '../../../clases/LibroMayor.js';
 
-let store = null;
+let store = null; 
+
 mostrarLista();
+
 function mostrarLista(){
   store = Storage.getInstance('empresa1');
-  
+  let asientos = store.getObject().getLibroDiario().getAsientos();
   let resultDefault = `<div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento guardado.</h5>`;
-  let result = `<div class="separator"></div><h5 class="mb-0 text-center">Lista Cuentas mayorizadas</h5>`;
+  let result = `<div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos</h5>`;
   let hayAsientos = false;
-  
-  let res = store.getObject().getLibroDiario().mayorizar();
-  if(res.correcto){
+  if(asientos.length > 0){
     hayAsientos = true;
-    let libro = new LibroMayor(res.data);
-    for(let cuenta of libro.getCuentas()){
+    for(let asiento of asientos){
       result += `<div class="separator"></div>`;
       result += `<div class="row">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -22,8 +20,9 @@ function mostrarLista(){
                           <div class="card-header">
                             <div class="d-flex">
                               <div class="d-block">
-                                <div class="mb-0"><b>Código:</b> ${cuenta.getCodigo()}</div>
-                                <div class="mb-0"><b>Nombre:</b> ${cuenta.getTitular()}</div>
+                                <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
+                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFechaString()}</div>
+                                <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
                               </div>
                             </div>
                           </div>
@@ -32,36 +31,34 @@ function mostrarLista(){
                                   <table class="table table-striped table-bordered first">
                                       <thead>
                                           <tr>
-                                              <th>Fecha</th>
+                                              <th>Codigo</th>
                                               <th>Concepto</th>
                                               <th>Debe</th>
                                               <th>Haber</th>
                                           </tr>
                                       </thead>
                                       <tbody>`;
-      let movimientos = cuenta.getMovimientos();
+      let movimientos = asiento.getMovimientos();
       for(let movimiento of movimientos){
-        result += ` <tr><td>${movimiento.getFechaString()}</td>`;
+        result += ` <tr><td>${movimiento.getCodigo()}</td>`;
         
         let debe = movimiento.getDebe();
         let haber = movimiento.getHaber();
         
         if(debe.amount > 0){
-          result += `<td>${movimiento.getConcepto()}</td>`;
+          result += `<td>${movimiento.getNombreCuenta()}</td>`;
         }else{
-          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getConcepto()}</td>`;
+          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getNombreCuenta()}</td>`;
         }
         
         result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
       }
-      let lineStyle = (cuenta.estaBalanceada()) ? "line-success" : "line-error";
-      console.log(lineStyle)
-      result += ` <tr class="${lineStyle}"><td colspan="2">Totales</td>`;
+      result += ` <tr class="line-success"><td colspan="2">Totales</td>`;
         
-      let cuentaDebe = cuenta.getDebe();
-      let cuentaHaber = cuenta.getHaber();
+      let asientoDebe = asiento.getDebe();
+      let asientoHaber = asiento.getHaber();
       
-      result += `<td>${cuentaDebe.toString()}</td><td>${cuentaHaber.toString()}</td></tr>`;
+      result += `<td>${asientoDebe.toString()}</td><td>${asientoHaber.toString()}</td></tr>`;
       result += `                     </tbody>
                                       <tfoot>`;
       result += `                      </tfoot>
@@ -72,9 +69,9 @@ function mostrarLista(){
                   </div>
               </div>`;
     }
+    
   }
-  
   //agregar html al div
-  document.getElementById("divListadoCuentas").innerHTML = (hayAsientos) ? result : resultDefault;
+  document.getElementById("divListadoAsientos").innerHTML = (hayAsientos) ? result : resultDefault;
 }
 
