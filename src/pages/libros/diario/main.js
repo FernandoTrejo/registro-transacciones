@@ -53,14 +53,15 @@ function mostrarLista(){
         
         result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
       }
-      result += ` <tr class="line-success"><td colspan="2">Totales</td>`;
-        
+
       let asientoDebe = asiento.getDebe();
       let asientoHaber = asiento.getHaber();
       
-      result += `<td>${asientoDebe.toString()}</td><td>${asientoHaber.toString()}</td></tr>`;
       result += `                     </tbody>
                                       <tfoot>`;
+      result += ` <tr class="line-success"><td colspan="2">Totales</td>`;
+      result += `<td>${asientoDebe.toString()}</td><td>${asientoHaber.toString()}</td></tr>`;
+      
       result += `                      </tfoot>
                                   </table>
                               </div>

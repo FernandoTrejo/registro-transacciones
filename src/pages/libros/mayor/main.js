@@ -55,15 +55,14 @@ function mostrarLista(){
         result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
       }
       let lineStyle = (cuenta.estaBalanceada()) ? "line-success" : "line-error";
-      console.log(lineStyle)
-      result += ` <tr class="${lineStyle}"><td colspan="2">Totales</td>`;
         
       let cuentaDebe = cuenta.getDebe();
       let cuentaHaber = cuenta.getHaber();
       
-      result += `<td>${cuentaDebe.toString()}</td><td>${cuentaHaber.toString()}</td></tr>`;
       result += `                     </tbody>
                                       <tfoot>`;
+      result += `<tr class="${lineStyle}"><td colspan="2">Totales</td>`;
+      result += `<td>${cuentaDebe.toString()}</td><td>${cuentaHaber.toString()}</td></tr>`;
       result += `                      </tfoot>
                                   </table>
                               </div>
@@ -71,6 +70,7 @@ function mostrarLista(){
                       </div>
                   </div>
               </div>`;
+              console.log(result);
     }
   }
   
