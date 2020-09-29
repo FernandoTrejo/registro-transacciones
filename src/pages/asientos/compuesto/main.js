@@ -99,53 +99,75 @@ function limpiarCamposAsiento(){
 }
 
 function agregarCargo(){
-  if(validarCamposCargo()){
-    let monto = document.getElementById("numMontoMovimientoDebe").value;
-    let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
-    let partesPartidaCuenta = partidaCuenta.trim().split("-");
-    let nombrePartida = partesPartidaCuenta[1].trim();
-    let codigoPartida = partesPartidaCuenta[0].trim();
-    
-    let btn = document.getElementById("btnAgregarCargo");
-    if(btn.innerText == "Cargar"){
+  let btn = document.getElementById("btnAgregarCargo");
+  if(btn.innerText == "Cargar"){
+    if(validarCamposCargo()){
+      let monto = document.getElementById("numMontoMovimientoDebe").value;
+      let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
+      let partesPartidaCuenta = partidaCuenta.trim().split("-");
+      let nombrePartida = partesPartidaCuenta[1].trim();
+      let codigoPartida = partesPartidaCuenta[0].trim();
       asiento.addMovimiento(new Movimiento(codigoPartida, nombrePartida, monto, 0, 1));
+      
+      actualizarDivMovimientos();
+      limpiarFormCargo();
     }else{
-      let indModify = Number(document.getElementById("indModifyCargo").value);
-      let movimientos = asiento.getMovimientos();
+      console.log("error");
+    }
+  }else{
+    let indModify = Number(document.getElementById("indModifyCargo").value);
+    let movimientos = asiento.getMovimientos();
+    if(validarCamposCargo(movimientos[indModify])){
+      let monto = document.getElementById("numMontoMovimientoDebe").value;
+      let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
+      let partesPartidaCuenta = partidaCuenta.trim().split("-");
+      let nombrePartida = partesPartidaCuenta[1].trim();
+      let codigoPartida = partesPartidaCuenta[0].trim();
+      
       movimientos[indModify] = new Movimiento(codigoPartida, nombrePartida, monto, 0, 1);
+      actualizarDivMovimientos();
+      limpiarFormCargo();
       btn.innerText = "Cargar";
     }
     
-    actualizarDivMovimientos();
-    limpiarFormCargo();
-  }else{
-    console.log("error");
   }
+  
+  
 }
 
 function agregarAbono(){
-  if(validarCamposAbono()){
-    let monto = document.getElementById("numMontoMovimientoHaber").value;
-    let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
-    let partesContrapartidaCuenta = contrapartidaCuenta.trim().split("-");
-    let nombreContrapartida = partesContrapartidaCuenta[1].trim();
-    let codigoContrapartida = partesContrapartidaCuenta[0].trim();
-    
-    let btn = document.getElementById("btnAgregarAbono");
-    if(btn.innerText == "Abonar"){
+  let btn = document.getElementById("btnAgregarAbono");
+  if(btn.innerText == "Abonar"){
+    if(validarCamposAbono()){
+      let monto = document.getElementById("numMontoMovimientoHaber").value;
+      let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
+      let partesContrapartidaCuenta = contrapartidaCuenta.trim().split("-");
+      let nombreContrapartida = partesContrapartidaCuenta[1].trim();
+      let codigoContrapartida = partesContrapartidaCuenta[0].trim();
       asiento.addMovimiento(new Movimiento(codigoContrapartida, nombreContrapartida, 0, monto,2));
+      
+      actualizarDivMovimientos();
+      limpiarFormAbono();
     }else{
-      let indModify = Number(document.getElementById("indModifyAbono").value);
-      let movimientos = asiento.getMovimientos();
+      console.log("error");
+    }
+  }else{
+    let indModify = Number(document.getElementById("indModifyAbono").value);
+    let movimientos = asiento.getMovimientos();
+    if(validarCamposAbono(movimientos[indModify])){
+      let monto = document.getElementById("numMontoMovimientoHaber").value;
+      let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
+      let partesContrapartidaCuenta = contrapartidaCuenta.trim().split("-");
+      let nombreContrapartida = partesContrapartidaCuenta[1].trim();
+      let codigoContrapartida = partesContrapartidaCuenta[0].trim();
       movimientos[indModify] = new Movimiento(codigoContrapartida, nombreContrapartida, 0, monto,2);
       btn.innerText = "Abonar";
+      
+      actualizarDivMovimientos();
+      limpiarFormAbono();
+    }else{
+      console.log("error");
     }
-    
-    actualizarDivMovimientos();
-    
-    limpiarFormAbono();
-  }else{
-    console.log("error");
   }
 }
 function modificarMovimiento(id){
@@ -191,15 +213,24 @@ function cuentaEnUso(cuenta){ // dentro de la transaccion
   return encontrada;
 }
 
-function verificarDispCuentas(cuenta,cuentas,tipo){
+function verificarDispCuentas(cuenta,cuentas,tipo,movimiento){
   let msg = "";
   let res = true;
   if(!cuentas.includes(cuenta.trim())){
     msg = "Esta cuenta no existe en el catálogo.";
     res = false;
   }else if(cuentaEnUso(cuenta.trim())){
-    msg = "Esta cuenta ya está siendo usada.";
-    res = false;
+    console.log('la cyenta esta en uso')
+    if(movimiento == null){
+      console.log('movimiento es null')
+      msg = "Esta cuenta ya está siendo usada.";
+      res = false;
+    }else if(movimiento.cuentaToString() != cuenta.trim()){
+      console.log(movimiento.cuentaToString(),cuenta.trim())
+      console.log('la cuenta enviada es diferente a la del movimiemto')
+      msg = "Esta cuenta ya está siendo usada.";
+      res = false;
+    }
   }
   
   if(Number(tipo) == 1){
@@ -228,11 +259,11 @@ function verificarMontoAbono(){
   document.getElementById("montoAbonoErroresBlock").innerText = msg;
 }
 
-function validarCamposCargo(){
+function validarCamposCargo(movimiento = null){
   let monto = document.getElementById("numMontoMovimientoDebe").value;
   let cuentaCargo = document.getElementById("txtPartidaCuenta").value;
   let cuentas = store.getObject().getCuentasHijas();
-  if(!verificarDispCuentas(cuentaCargo,cuentas,1)){
+  if(!verificarDispCuentas(cuentaCargo,cuentas,1,movimiento)){
     return false;
   }
   if(monto == "" || Number(monto) <= 0){
@@ -245,11 +276,12 @@ function validarCamposCargo(){
   return true;
 }
 
-function validarCamposAbono(){
+function validarCamposAbono(movimiento=null){
   let monto = document.getElementById("numMontoMovimientoHaber").value;
   let cuentaAbono = document.getElementById("txtContrapartidaCuenta").value;
   let cuentas = store.getObject().getCuentasHijas();
-  if(!verificarDispCuentas(cuentaAbono,cuentas,2)){
+  if(!verificarDispCuentas(cuentaAbono,cuentas,2,movimiento)){
+    console.log("falla en vrrificar cuentas")
     return false;
   }
   if(monto == "" || Number(monto) <= 0){

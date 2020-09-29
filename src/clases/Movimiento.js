@@ -12,6 +12,10 @@ class Movimiento{
     this.tipo = tipo;
   }
   
+  cuentaToString(){
+    return this.codigo.trim() + " - " + this.nombreCuenta.trim();
+  }
+  
   getFechaString(){
     return this.fechaString;
   }
