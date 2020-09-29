@@ -25,7 +25,7 @@ class Cuenta{
   abonar(){}
   
   getSaldo(){
-    return Money.calculateMoneySus(this.debe - this.haber);
+    return Money.calculateSus(this.debe.amount, this.haber.amount);
   }
   
   calculate(){

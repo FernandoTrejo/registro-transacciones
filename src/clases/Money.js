@@ -3,6 +3,7 @@ class Money{
     this.quantity = quantity;
     this.currency = currency;
     
+    //console.log(quantity)
     if(this.isValid(quantity)){
       this.fix(quantity);
     }else{
@@ -68,8 +69,9 @@ class Money{
   }
   
   static calculateSus(value1, value2){
-    let result = value1 - value2;
-    return new Money(result);
+    let result = Number(value1) - Number(value2);
+    console.log(value1,value2,result)
+    return new Money(Number(result));
   }
 }
 
