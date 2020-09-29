@@ -38,7 +38,7 @@ class Storage{
     let asientos = [];
     for(let asiento of obj.libroDiario.asientos){
       let movimientos= [];
-      console.log(asiento.movimientos);
+      
       for(let movimiento of asiento.movimientos){
         movimientos.push(new Movimiento(movimiento.codigo, movimiento.nombreCuenta, Number(movimiento.debe.quantity), Number(movimiento.haber.quantity), Number(movimiento.tipo)));
       }

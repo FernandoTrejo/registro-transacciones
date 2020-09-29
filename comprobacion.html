@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+  
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    
+    <title>Balance de Comprobación</title>
+</head>
+
+<body>
+    <div class="dashboard-main-wrapper">
+        <div include-html="pages/main/header.html"></div>
+        <div include-html="pages/main/sidebar.html"></div>
+
+        <div class="dashboard-wrapper">
+            <div class="container-fluid dashboard-content">
+              <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div class="page-header">
+              
+                          <div class="page-breadcrumb">
+                              <nav aria-label="breadcrumb">
+                                  <ol class="breadcrumb">
+                                      <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Menú</a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Balance de Comprobación</li>
+                                  </ol>
+                              </nav>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- listado de asientos-->
+              <div class="row d-flex justify-content-center">
+                <div id="divComprobacion" class="d-none">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center">
+                            <div class="card">
+                                <h5 class="card-header">Nombre de la empresa</h5>
+                                <div class="card-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Código</th>
+                                                <th scope="col">Concepto</th>
+                                                <th scope="col" colspan="2">Movimientos</th>
+                                                <th scope="col" colspan="2">Saldos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="listaCuentas">
+                                            <tr>
+                                                <th scope="row"></th>
+                                                <td>Cuenta</td>
+                                                <td>Deudor</td>
+                                                <td>Acreedor</td>
+                                                <td>Deudor</td>
+                                                <td>Acreedor</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+              </div>
+                <div id="mensaje"><h5 class="mb-0 text-center">No hay asientos guardados</h5></div>
+              </div>
+          </div>
+        </div>
+    </div>
+    
+    <script src="src/pages/global.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+    
+    <script type="module" src="src/pages/comprobacion/main.js"></script>
+</body>
+ 
+</html>
