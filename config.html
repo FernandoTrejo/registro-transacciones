@@ -1,0 +1,12 @@
+<button id="btnReiniciar" type="button">Reiniciar</button>
+
+<script type="text/javascript" charset="utf-8">
+function reiniciar(){
+  for(let i=0; i<localStorage.length; i++){
+    let key = localStorage.key(i);
+    localStorage.removeItem(key);
+    
+  }
+}
+  document.getElementById("btnReiniciar").addEventListener("click",reiniciar);
+</script>

@@ -6,8 +6,7 @@ import { Storage } from '../../../storage/Storage.js';
 import { Default } from '../../../storage/Default.js';
 
 //almacen de datos
-//localStorage.clear();
-
+let session = Storage.getSessionData();
 let store = null; 
 
 //objeto asiento que se usara globalmente
@@ -18,7 +17,7 @@ let asientoCopy = null;//para respaldo
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
 
 function refreshStore(){
-  store = Storage.getInstance('empresa1');
+  store = Storage.getInstance(session.getObject().empresa);
 }
 
 function crearAsiento(){

@@ -15,6 +15,15 @@ class Storage{
     // entonces guarda con localStorage con el nombre de la sesión
     localStorage.setItem(this.name, JSON.stringify(this.object));
   }
+  
+  static getSessionData(){
+    if(!Storage.sessionExists('session')){
+      console.log('aqui no existe la ses')
+      return new Storage('session',{'is_auth': false,'empresa': null});
+    }
+    console.log('exise')
+    return new Storage('session', JSON.parse(localStorage.getItem('session')));
+  }
       
   static getInstance(name){
     if(!Storage.sessionExists(name)){
@@ -32,8 +41,13 @@ class Storage{
   }
   
   static buildStorageObject(name,obj){
-    let temp = obj.catalogo;
-    let catalogo = new Catalogo(temp.activo,temp.pasivo,temp.capital,temp.acreedoras,temp.deudoras,temp.cierre);
+    let temp = obj.catalogo.cuentas;
+    console.log(temp)
+    let cuentasMadre = [];
+    for(let c of temp){
+      cuentasMadre.push(c);
+    }
+    let catalogo = new Catalogo(cuentasMadre);
     
     let asientos = [];
     for(let asiento of obj.libroDiario.asientos){
@@ -46,12 +60,17 @@ class Storage{
     }
     let libroDiario = new LibroDiario(asientos);
     
-    let finalObject = new Default(catalogo,libroDiario);
+    let finalObject = new Default(catalogo,libroDiario,obj.config);
     return new Storage(name, finalObject); 
   }
   
   getObject(){
     return this.object;
+  }
+  
+  setObject(object){
+    this.object = object;
+    this.save();
   }
 }
 

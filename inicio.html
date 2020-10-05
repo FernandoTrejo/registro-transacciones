@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Inicio</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="../assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/libs/css/style.css">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    
+    <link rel="stylesheet" href="assets/vendor/datepicker/tempusdominus-bootstrap-4.css" />
+  
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        /*display: -ms-flexbox;
+        display: flex;*/
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-image: url("assets/images/fondoOscuro.jpg");
+        background-repeat: round;
+        font-family: times;
+    }
+    
+    .card-mother{
+      background: #a3b4b9;
+    }
+    
+    .card-son{
+      /*background: #cfd9da;*/
+      /*background: #efefef;*/
+    }
+    
+    .card-border{
+      border: #a3b4b9 2px solid;
+    }
+    </style>
+</head>
+
+
+<body class="">
+    <div id="formCrearEmpresa" class="d-none">
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-6 col-lg-6 col-md-10 col-sm-12 col-12">
+        <form>
+        <div class="card card-mother">
+            <div class="card-header bg-dark card-border">
+                <h3 class="mb-0 text-white text-center">Crear Nueva Empresa</h3>
+            </div>
+            <div class="card-body">
+                <div class="card card-son">
+                  <div class="card-body">
+                    <h5 class="mb-0">Principal</h5>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="codigoEmpresa" required="" placeholder="Código" autocomplete="off">
+                        <small id="codigoEmpresaError" class="form-text text-danger">Este campo es requerido
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="nombreFiscal" required="" placeholder="Nombre Fiscal" autocomplete="off">
+                        <small id="nombreFiscalError" class="form-text text-danger">Este campo es requerido
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="nombreComercial" required="" placeholder="Nombre Comercial" autocomplete="off">
+                        <small id="nombreComercialError" class="form-text text-danger">Este campo es requerido
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="selectGiro">
+                          <option value="giro" selected>Seleccionar Giro</option>
+                          <option value="comercial">Comercial</option>
+                          <option value="industrial">Industrial</option>
+                          <option value="servicios">De Servicios</option>
+                        </select>
+                        <small id="selectGiroError" class="form-text text-danger">Debe seleccionar una opción
+                        </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="card card-son">
+                  <div class="card-body">
+                    <h5 class="mb-0">Contacto (opcionales)</h5>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="direccion" placeholder="Direccion" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="telefono" placeholder="Telefono" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="email" id="email" placeholder="E-mail" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+                <div class="card card-son">
+                    <div class="card-body">
+                      <h5 class="mb-0">Inicio de sesión</h5>
+                      <div class="form-group">
+                          <input class="form-control form-control-lg" id="pass1" type="password" placeholder="Clave de acceso">
+                          <small id="pass1Error" class="form-text text-danger">Este campo es requerido
+                          </small>
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control form-control-lg" id="pass2" type="password" placeholder="Confirmar">
+                          <small id="pass2Error" class="form-text text-danger">
+                          </small>
+                      </div>  
+                    </div>
+                </div>
+                <div class="card card-son">
+                    <div class="card-body">
+                      <h5 class="mb-0">Catalogo de Cuentas</h5>
+                      <div class="form-group">
+                  
+                        <label class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" name="radCatalogo" id="radDefecto" checked class="custom-control-input"><span class="custom-control-label">Por defecto</span>
+                        </label>
+                        <label class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" name="radCatalogo" id="radImportar" class="custom-control-input"><span class="custom-control-label">Importar Catálogo</span>
+                        </label>
+                        <small id="catalogoError" class="form-text text-danger">
+                          </small>                    
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                      <button type="button" id="btnAbrirMenuImportacion" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">Importar Catálogo (CSV)</button>
+                    </div>
+                    
+                  </div>
+                </div>
+            </div>
+            <div class="card-footer bg-dark card-border">
+              <div class="form-group pt-2">
+                    <button class="btn btn-block btn-primary" id="btnRegistrar" type="button">Registrar Empresa</button>
+                    <button class="btn btn-block btn-danger" id="btnCancelar" type="button">Cancelar Registro</button>
+                </div>
+            </div>
+        </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="formEmpresas" class="d-none">
+      <div class="row d-flex justify-content-center">
+      <button type="button" id="btnCrearEmpresa" class="btn btn-warning">Crear nueva Empresa</button>
+      </div>
+      <div class="separator"></div>
+      <h3 class="text-white text-center" id="msgSelectEmpresas">Seleccionar Empresa</h3>
+      <div id="listadoEmpresas"></div>
+      
+      <!--<div class="row d-flex justify-content-center">
+      <div class="col-xl-6 col-lg-6 col-md-10 col-sm-12 col-12">
+        <div class="card">
+          <div class="card-header">
+            Empresa 4
+          </div>
+          <div class="card-body">
+            <div class="form-group d-flex">
+              <input class="form-control" type="password" value="" placeholder="Ingresar Clave" />
+              <button class="btn btn-success" type="button">Iniciar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>-->
+      
+    </div>
+    
+    <!-- Modal -->
+    <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Importar Catalogo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="mb-0">Seleccionar CSV</h5>
+                <div class="form-group">
+                  <input type="file" accept=".csv" class="form-control" id="csv">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="mb-0">Delimitador</h5>
+                <div class="form-group">
+                  <label class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="radDelimitador" id="delimComa" checked class="custom-control-input"><span class="custom-control-label">,</span>
+                  </label>
+                  <label class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" name="radDelimitador" id="delimPuntoComa" class="custom-control-input"><span class="custom-control-label">;</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <h5 id="msgImportExito" class="mb-0 text-success d-none">Se importó con éxito</h5>
+            <h5 id="msgImportFallido" class="mb-0 text-danger d-none">Algo salió mal al importar el archivo, catálogo vacío</h5>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" type="button" id="btnCSV">Importar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+    
+    <script src="src/pages/global.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+    
+    <!-- datepicker -->
+    <script src="assets/vendor/datepicker/moment.js"></script>
+    <script src="assets/vendor/datepicker/tempusdominus-bootstrap-4.js"></script>
+    <script src="assets/vendor/datepicker/datepicker.js"></script>
+  
+    <script src="assets/libs/js/papaparse.min.js"></script>
+    
+    <script type="module" src="src/pages/inicio/main.js"></script>
+    
+    
+</body>
+ 
+</html>

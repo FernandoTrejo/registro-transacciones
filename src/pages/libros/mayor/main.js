@@ -1,10 +1,11 @@
 import { Storage } from '../../../storage/Storage.js';
 import { LibroMayor } from '../../../clases/LibroMayor.js';
 
+let session = Storage.getSessionData();
 let store = null;
 mostrarLista();
 function mostrarLista(){
-  store = Storage.getInstance('empresa1');
+  store = Storage.getInstance(session.getObject().empresa);
   
   let resultDefault = `<div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento guardado.</h5>`;
   let result = `<div class="separator"></div><h5 class="mb-0 text-center">Lista Cuentas mayorizadas</h5>`;

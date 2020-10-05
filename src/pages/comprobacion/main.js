@@ -2,13 +2,15 @@ import { Storage } from '../../storage/Storage.js';
 import { LibroMayor } from '../../clases/LibroMayor.js';
 import { Money } from '../../clases/Money.js';
 
+let session = Storage.getSessionData();
 let store = null;
 let divs = ['divComprobacion','mensaje'];
 mostrarBalance();
 
 
 function mostrarBalance(){
-  store = Storage.getInstance('empresa1');
+  store = Storage.getInstance(session.getObject().empresa);
+  
   let asientos = store.getObject().getLibroDiario().getAsientos();
 
   let result = ``;

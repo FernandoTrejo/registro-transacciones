@@ -4,6 +4,8 @@ import { Asiento } from '../../../clases/Asiento.js';
 import { LibroDiario } from '../../../clases/LibroDiario.js';
 import { Storage } from '../../../storage/Storage.js';
 
+let session = Storage.getSessionData();
+
 let store = null;
 //objeto asiento que se usara globalmente
 let asiento = null;
@@ -12,7 +14,7 @@ let asientoCopy = null;//para respaldo
 let divs = ['formCrearAsiento','formAgregarMovimiento','divMovimientos', "divListadoAsientos"];
 
 function refreshStore(){
-  store = Storage.getInstance('empresa1');
+  store = Storage.getInstance(session.getObject().empresa);
 }
 
 function crearAsiento(){

@@ -27,11 +27,14 @@ function includeHTML() {
 }
 
 function hidDivsExcept(divs, except){
+  
   for(let div of divs){
+    
     document.getElementById(div).classList.add('d-none');
   }
   
   for(let div of except){
+    
     document.getElementById(div).classList.remove('d-none');
   }
 }
