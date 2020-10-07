@@ -4,7 +4,7 @@ let deudoras = {
   'subcuentas': [
     {
       'codigo': '41',
-      'titular': '',
+      'titular': 'COSTOS Y GASTOS DE OPERACION',
       'subcuentas': [                   
         {
           'codigo': '4101',

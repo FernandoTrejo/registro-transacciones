@@ -3,6 +3,7 @@ class Catalogo{
     this.cuentas = cuentas;
     console.log(cuentas)
     this.cuentasHijas = []; //para busquedas, cuentas que no tienen subcuentas
+    this.cuentasArray = [];
     this.actualizarCuentas();
   }
   
@@ -10,23 +11,42 @@ class Catalogo{
     return this.cuentas.length > 0;
   }
   
+  getCuentas(){
+    return this.cuentas;
+  }
+  
+  getCuentasArray(){
+    return this.cuentasArray;
+  }
   
   getCuentasHijas(){
     return this.cuentasHijas;
   }
   
+  cuentaToArray(cuenta){
+    this.cuentasArray.push(`${cuenta.codigo} - ${cuenta.titular}`);
+    if(cuenta.subcuentas.length > 0){
+      for(let subcuenta of cuenta.subcuentas){
+        this.cuentaToArray(subcuenta);
+      }
+    }
+  }
+  
   actualizarCuentas(){
     this.cuentasHijas = [];
+    this.cuentasArray = [];
+    for(let cuenta of this.cuentas){
+      this.extraerCuentas(cuenta);
+    }
     
     for(let cuenta of this.cuentas){
-      console.log(cuenta);
-      this.extraerCuentas(cuenta);
+      this.cuentaToArray(cuenta);
     }
   }
   
   extraerCuentas(cuenta){
     if(cuenta.subcuentas.length == 0){
-      this.cuentasHijas.push(`${cuenta.codigo} - ${cuenta.titular}`)
+      this.cuentasHijas.push(`${cuenta.codigo} - ${cuenta.titular}`);
     }else{
       for(let subcuenta of cuenta.subcuentas){
         this.extraerCuentas(subcuenta);
@@ -34,16 +54,15 @@ class Catalogo{
     }
   }
   
-  agregarCuenta(cuenta, codigoPadre){
-    //let response = this.buscarCuenta(codigoPadre, this.cuentas);
+  static agregarCuenta(cuenta, codigoMadre, catalogo){
+    let response = Catalogo.buscar(codigoMadre, catalogo);
     //EXTRAER PRIMER INDICE DE FORMA DISTINTA
     
-    /*if(response.found){
+    if(response.found){
       response.cuenta.subcuentas.push(cuenta);
-      this.actualizarCuentas();
     }else{
       console.log("La cuenta solicitada no fue encontrada.");
-    }*/
+    }
     
   }
   
