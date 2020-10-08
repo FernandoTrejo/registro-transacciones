@@ -19,12 +19,20 @@ class Catalogo{
     return this.cuentasArray;
   }
   
+  getCuentasArrayString(){
+    let cuentas = [];
+    for(let cuenta of this.cuentasArray){
+      cuentas.push(`${cuenta[0]} - ${cuenta[1]}`);
+    }
+    return cuentas;
+  }
+  
   getCuentasHijas(){
     return this.cuentasHijas;
   }
   
   cuentaToArray(cuenta){
-    this.cuentasArray.push(`${cuenta.codigo} - ${cuenta.titular}`);
+    this.cuentasArray.push([cuenta.codigo,cuenta.titular]);
     if(cuenta.subcuentas.length > 0){
       for(let subcuenta of cuenta.subcuentas){
         this.cuentaToArray(subcuenta);
@@ -56,10 +64,8 @@ class Catalogo{
   
   static agregarCuenta(cuenta, codigoMadre, catalogo){
     let response = Catalogo.buscar(codigoMadre, catalogo);
-    //EXTRAER PRIMER INDICE DE FORMA DISTINTA
-    
-    if(response.found){
-      response.cuenta.subcuentas.push(cuenta);
+    if(response != null){
+      response.subcuentas.push(cuenta);
     }else{
       console.log("La cuenta solicitada no fue encontrada.");
     }
@@ -104,7 +110,7 @@ class Catalogo{
     for(let c of cuentas){
       let codigo = c[0].trim();
       let nombre = c[1].trim();
-    
+      console.log(c)
       if(Catalogo.buscar(codigo, catalogo) == null){
         let obj = {
           "codigo": codigo,
