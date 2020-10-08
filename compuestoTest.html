@@ -100,22 +100,7 @@
                   <!--input oculto para guardar id asiento modificado-->
                   <input type="text" class="d-none" id="txtIndAsiento" value="-1" />
                   
-                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-                            <div class="simple-card">
-                                <ul class="nav nav-tabs" id="myTab5" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active border-left-0" id="home-tab-simple" data-toggle="tab" href="#home-simple" role="tab" aria-controls="home" aria-selected="true">Genérico</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab-simple" data-toggle="tab" href="#profile-simple" role="tab" aria-controls="profile" aria-selected="false">Venta</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab-simple" data-toggle="tab" href="#contact-simple" role="tab" aria-controls="contact" aria-selected="false">Compra</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent5">
-                                    <div class="tab-pane fade show active" id="home-simple" role="tabpanel" aria-labelledby="home-tab-simple">
-                                        <div class="row d-flex justify-content-center">
+                   <div class="row">
                     <div class="col-xl-6 col-lg-6">
                           <div class="card">
                               <div class="card-body border-top">
@@ -132,6 +117,7 @@
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group" data-target-input="nearest">
+                                      
                                           <input type="number" id="numMontoMovimientoDebe" step="0.01" min="0" class="form-control" placeholder="1.00" />
                                           <div class="input-group-append" data-target="" data-toggle="">
                                               <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
@@ -140,9 +126,15 @@
                                       <small id="montoCargoErroresBlock" class="form-text text-danger">
                                       </small>
                                   </div>
-                                  <div class="form-group">
-                                    <button type="button" id="btnAgregarCargo" class="btn btn-primary">Cargar</button>
+                                  <div class="form-group d-flex">
+                                      <button type="button" id="btnCuadrarCargo" class="btn btn-success">Cuadrar</button>
+                                      
+                                      <button type="button" id="btnCalcularIvaCargo" class="btn btn-success ml-auto">Calcular IVA</button>
                                   </div>
+                                  
+                              </div>
+                              <div class="card-footer d-flex justify-content-center">
+                                <button type="button" id="btnAgregarCargo" class="btn btn-primary">Cargar</button>
                               </div>
                           </div>
                       </div>
@@ -170,127 +162,17 @@
                                       <small id="montoAbonoErroresBlock" class="form-text text-danger">
                                       </small>
                                   </div>
-                                  <div class="form-group">
-                                    <button type="button" id="btnAgregarAbono" class="btn btn-primary">Abonar</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="profile-simple" role="tabpanel" aria-labelledby="profile-tab-simple">
-                                        <p>Nullam et tellus ac ligula condimentum sodales. Aenean tincidunt viverra suscipit. Maecenas id molestie est, a commodo nisi. Quisque fringilla turpis nec elit eleifend vestibulum. Aliquam sed purus in odio ullamcorper congue consectetur in neque. Aenean sem ex, tempor et auctor sed, congue id neque. </p>
-                                    </div>
-                                    <div class="tab-pane fade" id="contact-simple" role="tabpanel" aria-labelledby="contact-tab-simple">
-                                <div class="card">
-                                <div class="card-body border-top">
-                                <h5 class="card-title">Titulo</h5>
-                                <div class="row">
-                                  <!--<div class="card">-->
-                                     <!--<div class="card-body">-->
+                                  <div class="form-group d-flex">
+                                      <div>
+                                        <label for="checkCuadrarAbono">Cuadrar</label><input type="checkbox" id="checkCuadrarAbono" />
+                                      </div>
                                       
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                        <div class="form-group">
-                                          <div class="input-group" data-target-input="nearest">
-                                              <input type="number" id="numMontoMovimientoDebe" step="0.01" min="0" class="form-control" placeholder="Monto de la compra" />
-                                              <div class="input-group-append" data-target="" data-toggle="">
-                                                  <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
-                                              </div>
-                                          </div>
-                                          <small id="montoCargoErroresBlock" class="form-text text-danger">
-                                          </small>
-                                      </div>
-                                      </div>
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                        <div class="card">
-                                          <div class="card-body border-top">
-                                            <div class="form-group">
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                              <input type="radio" name="radIVA" checked="" class="custom-control-input"><span class="custom-control-label">Con IVA</span>
-                                              </label>
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                              <input type="radio" name="radIVA" class="custom-control-input"><span class="custom-control-label">Sin IVA</span>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                     <!--</div>-->
-                                   <!--</div>-->
-                                </div>
-                                </div>
-                                </div>
-                                
-                                <div class="card">
-                                <div class="card-body border-top">
-                                <h5>Otro Titulo</h5>
-                                <div class="row">
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                        <div class="form-group">
-                                          <div class="input-group" data-target-input="nearest">
-                                          <input type="text" id="txtNombreAsiento" class="form-control" placeholder="Cuenta Compra" />
-                                      </div>
-                                        </div>
-                                        <div class="form-group">
-                                      <div class="input-group" data-target-input="nearest">
-                                          <input type="text" id="txtNombreAsiento" class="form-control" placeholder="Cuenta IVA" />
-                                      </div>
+                                      <button type="button" id="btnCalcularIvaAbono" class="btn btn-success ml-auto">Calcular IVA</button>
                                   </div>
-                                      </div>
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                            
-                                        <div class="card">
-                                          <div class="card-body border-top">
-                                            <div class="form-group">
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radMovimiento" checked="" class="custom-control-input"><span class="custom-control-label">Cargar</span>
-                                              </label>
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radMovimiento" class="custom-control-input"><span class="custom-control-label">Abonar</span>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                </div>
-                                </div>
-                                </div>
-                            
-                                <div class="card">
-                                <div class="card-body border-top">
-                                <h5 class="card-title">Faltaba este</h5>
-                                <div class="row">
-                                  <div class="separator"></div>
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                        <div class="form-group">
-                                          <div class="input-group" data-target-input="nearest">
-                                              <input type="text" id="txtNombreAsiento" class="form-control" placeholder="Seleccionar cuenta" />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="col-xl-6 col-lg-6 my-auto">
-                                        <div class="card">
-                                          <div class="card-body border-top">
-                                            <div class="form-group">
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radMovimiento02" checked="" class="custom-control-input"><span class="custom-control-label">Cargar</span>
-                                              </label>
-                                              <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radMovimiento02" class="custom-control-input"><span class="custom-control-label">Abonar</span>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                </div>
-                                </div>
-                                </div>
-                                
-                                <div class="row">
-                                  <div class="col d-flex justify-content-center">
-                                    <button type="button" id="btnAceptar" class="btn btn-primary">Aceptar</button>
-                                  </div>
-                                </div>
+                                  
+                              </div>
+                              <div class="card-footer d-flex justify-content-center">
+                                <button type="button" id="btnAgregarAbono" class="btn btn-primary">Abonar</button>
                               </div>
                           </div>
                       </div>

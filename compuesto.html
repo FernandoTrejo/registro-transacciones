@@ -128,9 +128,15 @@
                                       <small id="montoCargoErroresBlock" class="form-text text-danger">
                                       </small>
                                   </div>
-                                  <div class="form-group">
-                                    <button type="button" id="btnAgregarCargo" class="btn btn-primary">Cargar</button>
+                                  <div class="form-group d-flex">
+                                      <button type="button" id="btnCuadrarCargo" class="btn btn-warning"><i class="fas fa-balance-scale"></i> Cuadrar</button>
+                                      
+                                      <button type="button" id="btnCalcularIvaCargo" class="btn btn-warning ml-auto" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-calculator"></i> Calcular IVA</button>
                                   </div>
+                                  
+                              </div>
+                              <div class="card-footer d-flex justify-content-center">
+                                <button type="button" id="btnAgregarCargo" class="btn btn-primary">Cargar</button>
                               </div>
                           </div>
                       </div>
@@ -158,9 +164,15 @@
                                       <small id="montoAbonoErroresBlock" class="form-text text-danger">
                                       </small>
                                   </div>
-                                  <div class="form-group">
-                                    <button type="button" id="btnAgregarAbono" class="btn btn-primary">Abonar</button>
+                                  <div class="form-group d-flex">
+                                      <button type="button" id="btnCuadrarAbono" class="btn btn-warning"><i class="fas fa-balance-scale"></i> Cuadrar</button>
+                                      
+                                      <button type="button" id="btnCalcularIvaAbono" class="btn btn-warning ml-auto" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-calculator"></i> Calcular IVA</button>
                                   </div>
+                                  
+                              </div>
+                              <div class="card-footer d-flex justify-content-center">
+                                <button type="button" id="btnAgregarAbono" class="btn btn-primary">Abonar</button>
                               </div>
                           </div>
                       </div>
@@ -175,9 +187,9 @@
                               <div class="mb-0" id="headerAsiento"></div>
                               <div class="mb-0" id="headerFecha"></div>
                               <p id="headerComentarios"></p>
-                              <button type="button" class="btn btn-info" id="btnModificarAsiento">Modificar</button>
-                              <button type="button" class="btn btn-warning" id="btnCancelarAsiento">Cancelar</button>
-                              <button type="button" class="btn btn-primary" id="btnGuardarAsiento">Guardar</button>
+                              <button type="button" class="btn btn-info" id="btnModificarAsiento"> <i class="fas fa-edit" aria-hidden="true"></i> Modificar</button>
+                              <button type="button" class="btn btn-danger" id="btnCancelarAsiento"><i class="far fa-times-circle"></i> Cancelar</button>
+                              <button type="button" class="btn btn-primary" id="btnGuardarAsiento"><i class="fas fa-save"></i> Guardar</button>
                           </div>
                           <div class="card-body">
                               <div class="table-responsive">
@@ -207,6 +219,81 @@
         </div>
     </div>
     
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Calcular IVA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="">
+            
+            <div class="card">
+              <div class="card-body d-flex">
+                <h5 class="mb-0">IVA incluido</h5>
+
+                  <div class="switch-button switch-button-danger ml-auto">
+                      <input type="checkbox" id="checkIvaIncluido">
+                      <span><label for="checkIvaIncluido"></label></span>
+                  </div>
+
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="mb-0">IVA</h5>
+                <div class="form-group">
+                    <div class="autocomplete" id="" data-target-input="nearest">
+                        <input type="text" class="form-control" id="txtCuentaIva" placeholder="Buscar por código o nombre"/>
+                    </div>
+                    <small id="txtCuentaIvaError" class="form-text text-danger">
+                    </small>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" data-target-input="nearest">
+                        <input type="number" id="numMontoIvaCalculado" step="0.01" min="0" class="form-control" placeholder="1.00" readonly/>
+                        <div class="input-group-append" data-target="" data-toggle="">
+                            <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                        </div>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="mb-0">Principal</h5>
+                <div class="form-group">
+                    <div class="autocomplete" id="" data-target-input="nearest">
+                        <input id="txtModalCuentaPrincipal" type="text" class="form-control" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" data-target-input="nearest">
+                        <input type="number" id="numMontoPrincipalCalculado" step="0.01" min="0" class="form-control" readonly/>
+                        <div class="input-group-append" data-target="" data-toggle="">
+                            <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+                        </div>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+            <h5 id="msgIvaFormFallido" class="mb-0 text-danger d-none"></h5>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button" data-dismiss="modal" id="btnAgregarMovimientoIva"></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
     <script src="src/pages/global.js"></script>
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->

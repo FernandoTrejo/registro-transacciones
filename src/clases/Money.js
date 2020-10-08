@@ -3,7 +3,7 @@ class Money{
     this.quantity = quantity;
     this.currency = currency;
     
-    //console.log(quantity)
+    console.log(quantity)
     if(this.isValid(quantity)){
       this.fix(quantity);
     }else{
@@ -64,7 +64,7 @@ class Money{
   }
   
   static calculateMoneySus(value1, value2){
-    let result = value1 - value2;
+    let result = value1.amount - value2.amount;
     return new Money(result);
   }
   
@@ -72,6 +72,27 @@ class Money{
     let result = Number(value1) - Number(value2);
     console.log(value1,value2,result)
     return new Money(Number(result));
+  }
+  
+  static calculateIva(monto, iva, ivaIncluded = false){
+    let montoPrincipal = 0;
+    let montoIva = 0;
+    
+    monto = Number(monto);
+    iva = Number(iva);
+    
+    if(ivaIncluded){
+      montoPrincipal = Number(monto / Number(1+Number(iva/100)));
+      montoIva = Number(monto - montoPrincipal);
+    }else{
+      montoIva = Number(monto * Number(iva/100));
+      montoPrincipal = Number(monto);
+    }
+    
+    return {
+      'principal': new Money(Number(montoPrincipal)),
+      'iva': new Money(Number(montoIva))
+    };
   }
 }
 

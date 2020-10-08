@@ -40,7 +40,7 @@ function crearAsiento(){
 
 function mostrarDatosAsiento(){
   document.getElementById("headerAsiento").innerHTML = `<b>Concepto</b>: ${asiento.getConcepto()}`;
-  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFecha()}`;
+  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFechaString()}`;
   document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
 }
 
@@ -133,8 +133,101 @@ function agregarCargo(){
     }
     
   }
+}
+
+function agregarMovimientoIva(){
+  let res = validarMovimientoIva();
+  if(res.valid){
+    let btn = document.getElementById("btnAgregarMovimientoIva");
+    
+    let partesCuentaPrincipal = res.cuentaPrincipal.trim().split("-");
+    let nombreCuentaPrincipal = partesCuentaPrincipal[1].trim();
+    let codigoCuentaPrincipal = partesCuentaPrincipal[0].trim();
+    
+    let partesCuentaIva = res.cuentaIva.trim().split("-");
+    let nombreCuentaIva = partesCuentaIva[1].trim();
+    let codigoCuentaIva = partesCuentaIva[0].trim();
+    
+    let montoPrincipal = res.principal;
+    let montoIva = res.iva;
+    
+    if(btn.innerText == "Cargar"){
+      asiento.addMovimiento(new Movimiento(codigoCuentaPrincipal, nombreCuentaPrincipal, montoPrincipal, 0, 1));
+      asiento.addMovimiento(new Movimiento(codigoCuentaIva, nombreCuentaIva, montoIva, 0, 1));
+      actualizarDivMovimientos();
+      limpiarFormCargo();
+    }else{
+      asiento.addMovimiento(new Movimiento(codigoCuentaPrincipal, nombreCuentaPrincipal, 0, montoPrincipal, 2));
+      asiento.addMovimiento(new Movimiento(codigoCuentaIva, nombreCuentaIva, 0, montoIva, 2));
+      actualizarDivMovimientos();
+      limpiarFormAbono();
+    }
+  }else{
+    document.getElementById("msgIvaFormFallido").innerText = "Algo salió mal";
+  }
+}
+
+function validarMovimientoIva(){
+  let objValid = {
+    'valid': false
+  };
+  let montoPrincipal = document.getElementById("numMontoPrincipalCalculado").value;
+  let cuentaPrincipal = document.getElementById("txtModalCuentaPrincipal").value;
+  let montoIva = document.getElementById("numMontoIvaCalculado").value;
+  let cuentaIva = document.getElementById("txtCuentaIva").value;
   
+  let cuentas = store.getObject().getCuentasHijas();
+  if(!verificarDispCuentas(cuentaIva,cuentas,3)){
+    return objValid;
+  }
+  if(montoPrincipal == "" || Number(montoPrincipal) <= 0){
+    return objValid;
+  }
+  if(montoIva == "" || Number(montoIva) <= 0){
+    return objValid;
+  }
+  if(cuentaPrincipal == "" || cuentaIva.trim() == ""){
+    return objValid;
+  }
   
+  return {
+    'valid':true,
+    'principal': montoPrincipal,
+    'iva': montoIva,
+    'cuentaIva': cuentaIva,
+    'cuentaPrincipal': cuentaPrincipal
+  };
+}
+
+function mostrarCargoIvaModal(){
+  document.getElementById("btnAgregarMovimientoIva").innerText = "Cargar";
+  document.getElementById("checkIvaIncluido").checked = false;
+  if(validarCamposCargo()){
+      let monto = document.getElementById("numMontoMovimientoDebe").value;
+      let partidaCuenta = document.getElementById("txtPartidaCuenta").value;
+      
+      let iva = store.getObject().getConfig().iva;
+      
+      let res = Money.calculateIva(monto, iva)
+      
+      document.getElementById("txtModalCuentaPrincipal").value = partidaCuenta;
+      document.getElementById("numMontoPrincipalCalculado").value = res.principal.amount;
+      document.getElementById("numMontoIvaCalculado").value = res.iva.amount;
+      
+      document.getElementById("btnAgregarMovimientoIva").disabled = false;
+      document.getElementById("txtCuentaIva").disabled = false;
+      document.getElementById("txtCuentaIva").value = "";
+      document.getElementById("checkIvaIncluido").disabled = false;
+      
+    }else{
+      document.getElementById("txtModalCuentaPrincipal").value = "";
+      document.getElementById("numMontoPrincipalCalculado").value = "";
+      document.getElementById("numMontoIvaCalculado").value = "";
+      document.getElementById("btnAgregarMovimientoIva").disabled = true;
+      document.getElementById("txtCuentaIva").value = "";
+      document.getElementById("txtCuentaIva").disabled = true;
+      document.getElementById("checkIvaIncluido").disabled = true;
+    }
 }
 
 function agregarAbono(){
@@ -172,6 +265,58 @@ function agregarAbono(){
     }
   }
 }
+
+function mostrarAbonoIvaModal(){
+  document.getElementById("btnAgregarMovimientoIva").innerText = "Abonar";
+  document.getElementById("checkIvaIncluido").checked = false;
+  if(validarCamposAbono()){
+      let monto = document.getElementById("numMontoMovimientoHaber").value;
+      let contrapartidaCuenta = document.getElementById("txtContrapartidaCuenta").value;
+      
+      let iva = store.getObject().getConfig().iva;
+      
+      let res = Money.calculateIva(monto, iva)
+      
+      document.getElementById("txtModalCuentaPrincipal").value = contrapartidaCuenta;
+      document.getElementById("numMontoPrincipalCalculado").value = res.principal.amount;
+      document.getElementById("numMontoIvaCalculado").value = res.iva.amount;
+      
+      document.getElementById("btnAgregarMovimientoIva").disabled = false;
+      document.getElementById("txtCuentaIva").disabled = false;
+      document.getElementById("txtCuentaIva").value = "";
+      document.getElementById("checkIvaIncluido").disabled = false;
+      
+    }else{
+      document.getElementById("txtModalCuentaPrincipal").value = "";
+      document.getElementById("numMontoPrincipalCalculado").value = "";
+      document.getElementById("numMontoIvaCalculado").value = "";
+      document.getElementById("btnAgregarMovimientoIva").disabled = true;
+      document.getElementById("txtCuentaIva").value = "";
+      document.getElementById("txtCuentaIva").disabled = true;
+      document.getElementById("checkIvaIncluido").disabled = true;
+    }
+}
+
+function calcularIva(){
+  let monto = null; 
+  let btn = document.getElementById("btnAgregarMovimientoIva");
+  if(btn.innerText == "Cargar"){
+    monto = document.getElementById("numMontoMovimientoDebe").value;
+  }else{
+    monto = document.getElementById("numMontoMovimientoHaber").value;
+  }
+  let iva = store.getObject().getConfig().iva;
+  let res = null;
+  
+  if(document.getElementById("checkIvaIncluido").checked){
+    res = Money.calculateIva(monto, iva, true);
+  }else{
+    res = Money.calculateIva(monto, iva);
+  }
+  document.getElementById("numMontoPrincipalCalculado").value = res.principal.amount;
+  document.getElementById("numMontoIvaCalculado").value = res.iva.amount;
+}
+
 function modificarMovimiento(id){
   let movimientos = asiento.getMovimientos();
   let movimiento = movimientos[id];
@@ -222,7 +367,7 @@ function verificarDispCuentas(cuenta,cuentas,tipo,movimiento){
     msg = "Esta cuenta no existe en el catálogo.";
     res = false;
   }else if(cuentaEnUso(cuenta.trim())){
-    console.log('la cyenta esta en uso')
+    console.log('la cuenta esta en uso')
     if(movimiento == null){
       console.log('movimiento es null')
       msg = "Esta cuenta ya está siendo usada.";
@@ -234,11 +379,25 @@ function verificarDispCuentas(cuenta,cuentas,tipo,movimiento){
       res = false;
     }
   }
-  
+  /*
   if(Number(tipo) == 1){
     document.getElementById("cargoErroresBlock").innerText = msg;
   }else{
     document.getElementById("abonoErroresBlock").innerText = msg;
+  }*/
+  
+  switch(Number(tipo)){
+    case 1:
+      document.getElementById("cargoErroresBlock").innerText = msg;
+      break;
+    case 2: 
+      document.getElementById("abonoErroresBlock").innerText = msg;
+      break;
+    case 3:
+      document.getElementById("txtCuentaIvaError").innerText = msg;
+      break;
+    case 4: 
+      break;
   }
   return res;
 }
@@ -388,7 +547,7 @@ function mostrarLista(){
                             <div class="d-flex">
                               <div class="d-block">
                                 <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
-                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFecha()}</div>
+                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFechaString()}</div>
                                 <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
                               </div>
                               <div class="d-block ml-auto">
@@ -511,6 +670,28 @@ function modificarAsientoLista(id){
   hidDivsExcept(divs, ['formAgregarMovimiento','divMovimientos']);
 }
 
+function cuadrarAbono(){
+  if(asiento.tieneMovimientos()){
+    if(!asiento.estaBalanceado()){
+      if(Number(asiento.getHaber().amount) < Number(asiento.getDebe().amount)){
+        let diferencia = Money.calculateMoneySus(asiento.getDebe(),asiento.getHaber());
+        document.getElementById("numMontoMovimientoHaber").value = diferencia.amount;
+      }
+    }
+  }
+}
+function cuadrarCargo(){
+  if(asiento.tieneMovimientos()){
+    if(!asiento.estaBalanceado()){
+      //alert(asiento.getDebe().amount<asiento.getHaber().amount);
+      if(Number(asiento.getDebe().amount) < Number(asiento.getHaber().amount)){
+        let diferencia = Money.calculateMoneySus(asiento.getHaber(),asiento.getDebe());
+        document.getElementById("numMontoMovimientoDebe").value = diferencia.amount;
+      }
+    }
+  }
+}
+
 jQuery(document).ready(function($) {
     'use strict';
 
@@ -527,16 +708,28 @@ jQuery(document).ready(function($) {
     
     autocomplete(document.getElementById("txtPartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
     autocomplete(document.getElementById("txtContrapartidaCuenta"), store.getObject().getCatalogo().getCuentasHijas());
+    autocomplete(document.getElementById("txtCuentaIva"), store.getObject().getCatalogo().getCuentasHijas());
     
     document.getElementById("btnAceptar").addEventListener("click",crearAsiento);
     document.getElementById("btnModificarAsiento").addEventListener("click",modificarAsiento);  
     document.getElementById("btnCancelarAsiento").addEventListener("click",cancelarAsiento);  
     document.getElementById("btnAgregarAbono").addEventListener("click",agregarAbono);
+    document.getElementById("btnCalcularIvaCargo").addEventListener("click",mostrarCargoIvaModal);
     document.getElementById("btnAgregarCargo").addEventListener("click",agregarCargo);
+    document.getElementById("btnCalcularIvaAbono").addEventListener("click",mostrarAbonoIvaModal);
+    
+    document.getElementById("btnAgregarMovimientoIva").addEventListener("click",agregarMovimientoIva);
+    
+    document.getElementById("checkIvaIncluido").addEventListener("change",calcularIva);
+    
     document.getElementById("numMontoMovimientoDebe").addEventListener("keyup",verificarMontoCargo);
     document.getElementById("numMontoMovimientoHaber").addEventListener("keyup",verificarMontoAbono);
     document.getElementById("btnGuardarAsiento").addEventListener("click",guardarAsiento);
-    document.getElementById("btnGuardarAsiento").disabled = false;
+    document.getElementById("btnGuardarAsiento").disabled = true;
+    
+    document.getElementById("btnCuadrarAbono").addEventListener("click", cuadrarAbono);
+    document.getElementById("btnCuadrarCargo").addEventListener("click", cuadrarCargo);
+    
     
     mostrarLista();
     hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
