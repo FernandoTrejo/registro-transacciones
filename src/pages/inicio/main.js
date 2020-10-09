@@ -226,30 +226,36 @@ function importarCatalogo(){
 }
 
 function llenarDatos(results){
-  let data = [];
-  if(results.length > 0){
-    let i = -1;
-    for(let row of results){
-      i++;
-      if(i==0) continue;
-      
-      if(row.length == 2){
-        data.push([row[0],row[1]]);
+    var worker = new Worker("src/pages/inicio/importarCatalogo.js");
+  
+    worker.onmessage = function(event) {
+      console.log(event.data);
+      if(event.data.valid){
+        document.getElementById("msgImportPercentage").innerText = "";
+        catalogoImportado = new Catalogo(event.data.catalogo);
+        if(!catalogoImportado.hayCuentas()){
+          document.getElementById("msgImportFallido").classList.remove("d-none");
+          document.getElementById("msgImportExito").classList.add("d-none");
+          catalogoImportado = null;
+          document.getElementById("catalogoError").innerText = "No se ha importado el catálogo";
+        }else{
+          document.getElementById("msgImportFallido").classList.add("d-none");
+          document.getElementById("msgImportExito").classList.remove("d-none");
+          document.getElementById("catalogoError").innerText = "";
+        }
+      }else{
+        
+        document.getElementById("msgImportPercentage").innerText = "Porcentaje: " + event.data.percentage + "%";
       }
-    }
+    };
+
+    worker.onerror = function(error) {
+      console.log("Worker error: " + error.message + "\n");
+      throw error;
+    };
+
+    worker.postMessage(results);
     
-    catalogoImportado = Catalogo.importar(data);
-    if(!catalogoImportado.hayCuentas()){
-      document.getElementById("msgImportFallido").classList.remove("d-none");
-      document.getElementById("msgImportExito").classList.add("d-none");
-      catalogoImportado = null;
-      document.getElementById("catalogoError").innerText = "No se ha importado el catálogo";
-    }else{
-      document.getElementById("msgImportFallido").classList.add("d-none");
-      document.getElementById("msgImportExito").classList.remove("d-none");
-      document.getElementById("catalogoError").innerText = "";
-    }
-  }
   
 }
 

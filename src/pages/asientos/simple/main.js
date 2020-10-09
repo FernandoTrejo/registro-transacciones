@@ -43,7 +43,7 @@ function crearAsiento(){
 
 function mostrarDatosAsiento(){
   document.getElementById("headerAsiento").innerHTML = `<b>Concepto:</b> ${asiento.getConcepto()}`;
-  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFecha()}`;
+  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFechaString()}`;
   document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
 }
 
