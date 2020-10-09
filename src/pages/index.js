@@ -17,7 +17,7 @@ function mostrarTimeline(){
       resultHtml += `
        <div class="cd-timeline__block js-cd-block">
           <div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
-              <img src="../assets/vendor/timeline/img/cd-icon-picture.svg" alt="Picture">
+              <img src="assets/vendor/timeline/img/notas.svg" alt="Picture">
           </div>
           <!-- cd-timeline__img -->
           <div class="cd-timeline__content js-cd-content">

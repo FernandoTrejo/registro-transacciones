@@ -16,6 +16,16 @@ class LibroMayor{
   }
   
   getCuentas(){
+    this.cuentas.sort(((a,b)=> a.codigo > b.codigo));
+    this.cuentas.sort(function(a,b){
+      if(a.codigo > b.codigo){
+        return 1;
+      }
+      if(a.codigo < b.codigo){
+        return -1;
+      }
+      return 0;
+    });
     return this.cuentas;
   }
   

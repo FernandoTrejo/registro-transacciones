@@ -115,7 +115,7 @@ function validarCampos(){
   let radImportar = document.getElementById("radImportar");
   let objValidCatalogo = validarCatalogo(radImportar.checked);
   
-  if(objValidPrincipal.valid && objValidContacto.valid && objValidClaves && objValidCatalogo.valid){
+  if(objValidPrincipal.valid && objValidContacto.valid && objValidClaves.valid && objValidCatalogo.valid){
     objValid.valid = true;
     
     let empresa = {

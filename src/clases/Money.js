@@ -3,7 +3,6 @@ class Money{
     this.quantity = quantity;
     this.currency = currency;
     
-    console.log(quantity)
     if(this.isValid(quantity)){
       this.fix(quantity);
     }else{

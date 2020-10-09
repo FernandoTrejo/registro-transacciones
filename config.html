@@ -79,7 +79,7 @@
                     <h5 class="mb-0">Principal</h5>
                     <div class="form-group">
                         <input class="form-control form-control-lg" type="number" id="numPorIva" required="" placeholder="%" autocomplete="off">
-                        <small id="numPorIvaError" class="form-text text-danger">Este campo es requerido
+                        <small id="numPorIvaError" class="form-text text-danger">
                         </small>
                     </div>
                     
@@ -107,18 +107,16 @@
                   <div class="card-body">
                     <h5 class="mb-0">Principal</h5>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" type="text" id="codigoEmpresa" required="" placeholder="Código" autocomplete="off">
-                        <small id="codigoEmpresaError" class="form-text text-danger">Este campo es requerido
-                        </small>
+                        <input class="form-control form-control-lg" type="text" id="codigoEmpresa" readonly autocomplete="off">
                     </div>
                     <div class="form-group">
                         <input class="form-control form-control-lg" type="text" id="nombreFiscal" required="" placeholder="Nombre Fiscal" autocomplete="off">
-                        <small id="nombreFiscalError" class="form-text text-danger">Este campo es requerido
+                        <small id="nombreFiscalError" class="form-text text-danger">
                         </small>
                     </div>
                     <div class="form-group">
                         <input class="form-control form-control-lg" type="text" id="nombreComercial" required="" placeholder="Nombre Comercial" autocomplete="off">
-                        <small id="nombreComercialError" class="form-text text-danger">Este campo es requerido
+                        <small id="nombreComercialError" class="form-text text-danger">
                         </small>
                     </div>
                     <div class="form-group">
@@ -128,7 +126,7 @@
                           <option value="industrial">Industrial</option>
                           <option value="servicios">De Servicios</option>
                         </select>
-                        <small id="selectGiroError" class="form-text text-danger">Debe seleccionar una opción
+                        <small id="selectGiroError" class="form-text text-danger">
                         </small>
                     </div>
                   </div>
@@ -151,12 +149,21 @@
                     <div class="card-body">
                       <h5 class="mb-0">Inicio de sesión</h5>
                       <div class="form-group">
-                          <input class="form-control form-control-lg" id="pass1" type="password" placeholder="Clave de acceso">
-                          <small id="pass1Error" class="form-text text-danger">Este campo es requerido
+                          <input class="form-control form-control-lg" id="pass0" type="password" placeholder="Ingresar clave actual">
+                          <small id="pass0Error" class="form-text text-danger">
+                          </small>
+                          
+                      </div>
+                      <div class="form-group d-flex justify-content-center">
+                          <button type="button" class="btn btn-warning" id="btnIngresarClaveActual">Aceptar</button>
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control form-control-lg" id="pass1" type="password" placeholder="Ingresar la nueva clave" disabled>
+                          <small id="pass1Error" class="form-text text-danger">
                           </small>
                       </div>
                       <div class="form-group">
-                          <input class="form-control form-control-lg" id="pass2" type="password" placeholder="Confirmar">
+                          <input class="form-control form-control-lg" id="pass2" type="password" placeholder="Confirmar" disabled>
                           <small id="pass2Error" class="form-text text-danger">
                           </small>
                       </div>  
@@ -189,6 +196,7 @@
     <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
     <!-- main js -->
     <script src="assets/libs/js/main-js.js"></script>
+    <script type="module" src="src/pages/config/main.js"></script>
 </body>
 </html>
   

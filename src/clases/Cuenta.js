@@ -30,6 +30,7 @@ class Cuenta{
   
   calculate(){
     if(this.tieneMovimientos()){
+      this.ordenarPorFecha();
       let coleccionDebe = [];
       let coleccionHaber = [];
       
@@ -41,6 +42,10 @@ class Cuenta{
       this.debe = Money.calculateMoneySum(coleccionDebe);
       this.haber = Money.calculateMoneySum(coleccionHaber);
     }
+  }
+  
+  ordenarPorFecha(){
+    this.movimientos.sort(((a,b)=> a.fecha - b.fecha));
   }
   
   getDebe(){

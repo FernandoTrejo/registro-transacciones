@@ -50,7 +50,7 @@ function mostrarLista(){
         if(debe.amount > 0){
           result += `<td>${movimiento.getConcepto()}</td>`;
         }else{
-          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getConcepto()}</td>`;
+          result += `<td>${movimiento.getConcepto()}</td>`;
         }
         
         result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
@@ -71,7 +71,7 @@ function mostrarLista(){
                       </div>
                   </div>
               </div>`;
-              console.log(result);
+             
     }
   }
   
