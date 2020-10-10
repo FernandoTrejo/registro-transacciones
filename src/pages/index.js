@@ -10,7 +10,12 @@ function mostrarTimeline(){
   let resultHtml = `<section class="cd-timeline js-cd-timeline"><div class="cd-timeline__container">`;
   
   let asientos = store.getObject().getLibroDiario().getAsientos();
+  agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
+  
   if(asientos.length > 0){
+    let fecha01 = asientos[0].getFechaString();
+    let fecha02 = asientos[asientos.length - 1].getFechaString();
+    document.getElementById("txtDaterange").value = `${fecha01} - ${fecha02}`;
     for(let asiento of asientos){
       let enlace = (Number(asiento.getTipo()) == 1) ? "simple.html" : "compuesto.html";
       let msg = (Number(asiento.getTipo()) == 1) ? "Ver asientos simples" : "Ver asientos compuestos";

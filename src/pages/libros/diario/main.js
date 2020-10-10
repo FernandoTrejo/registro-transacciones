@@ -4,13 +4,15 @@ let session = Storage.getSessionData();
 
 let store = null; 
 
+
 mostrarLista();
 
 function mostrarLista(){
   store = Storage.getInstance(session.getObject().empresa);
+  agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
   let asientos = store.getObject().getLibroDiario().getAsientos();
-  let resultDefault = `<div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento guardado.</h5>`;
-  let result = `<div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos</h5>`;
+  let resultDefault = `<div class="separator"></div><h4 class="mb-0 text-center">No hay ningún asiento guardado.</h4>`;
+  let result = `<div class="separator"></div><h4 class="mb-0 text-center">Lista Asientos</h4>`;
   let hayAsientos = false;
   if(asientos.length > 0){
     hayAsientos = true;
@@ -22,9 +24,9 @@ function mostrarLista(){
                           <div class="card-header">
                             <div class="d-flex">
                               <div class="d-block">
-                                <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
-                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFechaString()}</div>
-                                <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
+                                <div class="mb-0"><b>CONCEPTO: </b><b style="color:slateblue">${asiento.getConcepto()}</b></div>
+                                <div class="mb-0"><b>FECHA: </b><b style="color:slateblue">${asiento.getFechaString()}</b></div>
+                                <p><b>COMENTARIOS: </b><b style="color:slateblue">${asiento.getComentarios()}</b></p>
                               </div>
                             </div>
                           </div>
@@ -33,27 +35,27 @@ function mostrarLista(){
                                   <table class="table table-striped table-bordered first">
                                       <thead>
                                           <tr>
-                                              <th>Codigo</th>
-                                              <th>Concepto</th>
-                                              <th>Debe</th>
-                                              <th>Haber</th>
+                                              <th>CÓDIGO</th>
+                                              <th>CONCEPTO</th>
+                                              <th>DEBE</th>
+                                              <th>HABER</th>
                                           </tr>
                                       </thead>
                                       <tbody>`;
       let movimientos = asiento.getMovimientos();
       for(let movimiento of movimientos){
-        result += ` <tr><td>${movimiento.getCodigo()}</td>`;
+        result += ` <tr><td><b>${movimiento.getCodigo()}</b></td>`;
         
         let debe = movimiento.getDebe();
         let haber = movimiento.getHaber();
         
         if(debe.amount > 0){
-          result += `<td>${movimiento.getNombreCuenta()}</td>`;
+          result += `<td><b>${movimiento.getNombreCuenta()}</b></td>`;
         }else{
-          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getNombreCuenta()}</td>`;
+          result += `<td><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getNombreCuenta()}</b></td>`;
         }
         
-        result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
+        result += `<td><b>${debe.toString()}</b></td><td><b>${haber.toString()}</b></td>`;
       }
 
       let asientoDebe = asiento.getDebe();
@@ -61,8 +63,8 @@ function mostrarLista(){
       
       result += `                     </tbody>
                                       <tfoot>`;
-      result += ` <tr class="line-success"><td colspan="2">Totales</td>`;
-      result += `<td>${asientoDebe.toString()}</td><td>${asientoHaber.toString()}</td></tr>`;
+      result += ` <tr class="line-success"><td colspan="2"><b>TOTALES</b></td>`;
+      result += `<td><b>${asientoDebe.toString()}</b></td><td><b>${asientoHaber.toString()}</b></td></tr>`;
       
       result += `                      </tfoot>
                                   </table>

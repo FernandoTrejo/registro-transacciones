@@ -57,7 +57,7 @@ class Movimiento{
   }
   
   getSaldo(){
-    return Money.calculateMoneySus(this.debe - this.haber);
+    return Money.calculateMoneySus(this.debe,this.haber);
   }
 }
 

@@ -202,7 +202,9 @@ jQuery(document).ready(function($) {
     document.getElementById("txtTitular").addEventListener("keyup", function(){
       document.getElementById("txtTitularError").innerText = (this.value.trim() != "") ? "" : "Este campo es obligatorio";
     });
-    mostrarCatalogo();
     
+    
+    mostrarCatalogo();
+    agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
     autocomplete(document.getElementById("txtCuentaMadre"), store.getObject().getCatalogo().getCuentasArrayString());
 });

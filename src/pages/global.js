@@ -26,6 +26,10 @@ function includeHTML() {
   }
 }
 
+function agregarNombreEmpresa(nombre){
+  document.getElementById("headerNombreEmpresa").innerHTML = nombre;
+}
+
 function hidDivsExcept(divs, except){
   
   for(let div of divs){

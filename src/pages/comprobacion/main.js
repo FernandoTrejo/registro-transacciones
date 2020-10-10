@@ -5,12 +5,13 @@ import { Money } from '../../clases/Money.js';
 let session = Storage.getSessionData();
 let store = null;
 let divs = ['divComprobacion','mensaje'];
+
 mostrarBalance();
 
 
 function mostrarBalance(){
   store = Storage.getInstance(session.getObject().empresa);
-  
+  agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
   let asientos = store.getObject().getLibroDiario().getAsientos();
 
   let result = ``;
@@ -24,11 +25,11 @@ function mostrarBalance(){
     
     result += `<tr>
                                                 <th scope="row"></th>
-                                                <td>Cuenta</td>
-                                                <td>Deudor</td>
-                                                <td>Acreedor</td>
-                                                <td>Deudor</td>
-                                                <td>Acreedor</td>
+                                                <td><b>CUENTA</b></td>
+                                                <td><b>DEUDOR</b></td>
+                                                <td><b>ACREEDOR</b></td>
+                                                <td><b>DEUDOR</b></td>
+                                                <td><b>ACREEDOR</b></td>
                                             </tr>`;
     let saldosAcreedores = [];
     let saldosDeudores = [];
@@ -42,26 +43,26 @@ function mostrarBalance(){
       
       if(cuenta.estaBalanceada()){
         result += `<tr class="">
-                  <td>${cuenta.getCodigo()}</td>
-                  <td>${cuenta.getTitular()}</td>
-                  <td>${debe.toString()}</td>
-                  <td>${haber.toString()}</td>
+                  <td><b>${cuenta.getCodigo()}</b></td>
+                  <td><b>${cuenta.getTitular()}</b></td>
+                  <td><b>${debe.toString()}</b></td>
+                  <td><b>${haber.toString()}</b></td>
                   <td></td>
                   <td></td>
               </tr>`;
       }else{
         result += `<tr>
-                  <td>${cuenta.getCodigo()}</td>
-                  <td>${cuenta.getTitular()}</td>
-                  <td>${debe.toString()}</td>
-                  <td>${haber.toString()}</td>`;
+                  <td><b>${cuenta.getCodigo()}</b></td>
+                  <td><b>${cuenta.getTitular()}</b></td>
+                  <td><b>${debe.toString()}</b></td>
+                  <td><b>${haber.toString()}</b></td>`;
         
         if(saldo.amount > 0){
           saldosDeudores.push(saldo);
-          result += `<td>${saldo.toString()}</td><td></td></tr>`;
+          result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
         }else{
           saldosAcreedores.push(saldo);
-          result +=  `<td></td><td>${saldo.toString()}</td></tr>`;
+          result +=  `<td></td><td><b>${saldo.toString()}</b></td></tr>`;
         }
       }
       
@@ -71,17 +72,18 @@ function mostrarBalance(){
     let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
     
     footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                  <tr>
+                  <tr class="line-success">
                   <td></td>
-                  <td>Sumas Iguales</td>
-                  <td>${debeDiario.toString()}</td>
-                  <td>${haberDiario.toString()}</td>
-                  <td>${saldoDeudor.toString()}</td>
-                  <td>${saldoAcreedor.toString()}</td>
+                  <td><b>SUMAS IGUALES</td>
+                  <td><b>${debeDiario.toString()}</b></td>
+                  <td><b>${haberDiario.toString()}</b></td>
+                  <td><b>${saldoDeudor.toString()}</b></td>
+                  <td><b>${saldoAcreedor.toString()}</b></td>
                   </tr>`;
   }
   //agregar html al div
   if(hayAsientos){
+    document.getElementById("txtNombreEmpresa").innerText = store.getObject().getConfig().empresa.nombreComercial;
     document.getElementById("listaCuentas").innerHTML = result;
     document.getElementById("footerCuentas").innerHTML = footer;
     hidDivsExcept(divs, ['divComprobacion']);

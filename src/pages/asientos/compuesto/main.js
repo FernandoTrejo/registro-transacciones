@@ -39,9 +39,9 @@ function crearAsiento(){
 }
 
 function mostrarDatosAsiento(){
-  document.getElementById("headerAsiento").innerHTML = `<b>Concepto</b>: ${asiento.getConcepto()}`;
-  document.getElementById("headerFecha").innerHTML = `<b>Fecha:</b> ${asiento.getFechaString()}`;
-  document.getElementById("headerComentarios").innerHTML = `<b>Comentarios:</b> ${asiento.getComentarios()}`;
+  document.getElementById("headerAsiento").innerHTML = `<b>CONCEPTO:</b> <b style="color:slateblue">${asiento.getConcepto()}</b>`;
+  document.getElementById("headerFecha").innerHTML = `<b>FECHA:</b> <b style="color:slateblue">${asiento.getFechaString()}</b>`;
+  document.getElementById("headerComentarios").innerHTML = `<b>COMENTARIOS:</b> <b style="color:slateblue">${asiento.getComentarios()}</b>`;
 }
 
 function mostrarDatosAsientoForm(){
@@ -523,8 +523,8 @@ function actualizarDivMovimientos(){ //ordenar antes de mostrar
 
 function mostrarLista(){
   let asientos = store.getObject().getLibroDiario().getAsientos();
-  let resultDefault = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">No hay ningún asiento compuesto guardado.</h5>`;
-  let result = `<div class="separator"></div><div class="separator"></div><h5 class="mb-0 text-center">Lista Asientos Compuestos</h5>`;
+  let resultDefault = `<div class="separator"></div><div class="separator"></div><h4 class="mb-0 text-center">No hay ningún asiento compuesto guardado.</h4>`;
+  let result = `<div class="separator"></div><div class="separator"></div><h4 class="mb-0 text-center">Lista Asientos Compuestos</h4>`;
   let hayAsientosCompuestos = false;
   
   if(asientos.length > 0){
@@ -546,9 +546,9 @@ function mostrarLista(){
                           <div class="card-header">
                             <div class="d-flex">
                               <div class="d-block">
-                                <div class="mb-0"><b>Concepto:</b> ${asiento.getConcepto()}</div>
-                                <div class="mb-0"><b>Fecha:</b> ${asiento.getFechaString()}</div>
-                                <p><b>Comentarios:</b> ${asiento.getComentarios()}</p>
+                                <div class="mb-0"><b>CONCEPTO:</b> <b style="color:slateblue">${asiento.getConcepto()}</b></div>
+                                <div class="mb-0"><b>FECHA:</b> <b style="color:slateblue">${asiento.getFechaString()}</b></div>
+                                <p><b>COMENTARIOS:</b> <b style="color:slateblue">${asiento.getComentarios()}</b></p>
                               </div>
                               <div class="d-block ml-auto">
                                 <button style="margin: 4px 1px" type="button" class="btn btn-info btn-sm modify-asi" id="${idBtnModify}">
@@ -565,35 +565,35 @@ function mostrarLista(){
                                   <table class="table table-striped table-bordered first">
                                       <thead>
                                           <tr>
-                                              <th>Codigo</th>
-                                              <th>Concepto</th>
-                                              <th>Debe</th>
-                                              <th>Haber</th>
+                                              <th>CODIGO</th>
+                                              <th>CONCEPTO</th>
+                                              <th>DEBE</th>
+                                              <th>HABER</th>
                                           </tr>
                                       </thead>
                                       <tbody>`;
       let movimientos = asiento.getMovimientos();
       for(let movimiento of movimientos){
-        result += ` <tr><td>${movimiento.getCodigo()}</td>`;
+        result += ` <tr><td><b>${movimiento.getCodigo()}</b></td>`;
         
         let debe = movimiento.getDebe();
         let haber = movimiento.getHaber();
         
         if(debe.amount > 0){
-          result += `<td>${movimiento.getNombreCuenta()}</td>`;
+          result += `<td><b>${movimiento.getNombreCuenta()}</b></td>`;
         }else{
-          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${movimiento.getNombreCuenta()}</td>`;
+          result += `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${movimiento.getNombreCuenta()}</b></td>`;
         }
         
-        result += `<td>${debe.toString()}</td><td>${haber.toString()}</td>`;
+        result += `<td><b>${debe.toString()}</b></td><td><b>${haber.toString()}</b></td>`;
       }
       
-      result += ` <tr><td colspan="2">Totales</td>`;
+      result += ` <tr><td colspan="2"><b>TOTALES</b></td>`;
         
       let debe = asiento.getDebe();
       let haber = asiento.getHaber();
       
-      result += `<td>${debe.toString()}</td><td>${haber.toString()}</td></tr>`;
+      result += `<td><b>${debe.toString()}</b></td><td><b>${haber.toString()}</b></td></tr>`;
       
       
       result += `                     </tbody>
@@ -732,5 +732,6 @@ jQuery(document).ready(function($) {
     
     
     mostrarLista();
+    agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
     hidDivsExcept(divs, ['formCrearAsiento','divListadoAsientos']);
 });

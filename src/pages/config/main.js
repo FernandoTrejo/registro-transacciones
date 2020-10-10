@@ -205,5 +205,7 @@ jQuery(document).ready(function($) {
       document.getElementById("numPorIvaError").innerText = (this.value.trim() == "") ? "Este campo es requerido" : "";
     });
     
+    
     cargarDatos();
+    agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
 });
