@@ -28,7 +28,7 @@
     
     <div class="dashboard-main-wrapper">
 
-<div class="dashboard-header">
+<div id="dashboard-header" class="dashboard-header">
     <nav class="navbar navbar-expand-lg bg-dark fixed-top">
         <a class="navbar-brand" href="index.html">Contabilidad</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -206,14 +206,14 @@
 
   // All units are in the set measurement for the document
   // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
+  doc.fromHTML(document.getElementById('dashboard-header'), 15, 15, {
     'width': 170, 
     'elementHandlers': specialElementHandlers
   }, function(){
-    console.log("finish");
+    doc.save('Generated.pdf');
   });
 
-  doc.save('Generated.pdf');
+  
 }
  </script>
 </body>
