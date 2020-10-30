@@ -212,7 +212,7 @@ function getPDF() {
 
   // All units are in the set measurement for the document
   // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML($('.divEstado').get(0), 15, 15, {
+  doc.fromHTML($('.content-result').get(0), 15, 15, {
     'width': 170, 
     'elementHandlers': specialElementHandlers
   });
