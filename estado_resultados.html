@@ -72,7 +72,7 @@
               </div>
               
               <!-- listado de asientos-->
-              <div id="divEstado" class="content-result">
+              <div id="divEstado" class="content-result d-none">
                 <h5 class="mb-0 text-center" id="txtNombreEmpresa"></h5>
                 <div class="row d-flex justify-content-center">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -176,6 +176,8 @@
         </div>
     </div>
     
+    <div id="contentForPrint" class="">              <div id="mensaje"><h4 class="mb-0 text-center">No hay asientos guardados</h4></div></div>
+    
     <script src="src/pages/global.js"></script>
 
     <!-- Optional JavaScript -->
@@ -193,7 +195,7 @@
      document.getElementById("getPDF").addEventListener("click", getPDF);
    function getPDF() {
   var doc = new jsPDF();
- console.log(doc)
+ 
   // We'll make our own renderer to skip this editor
   var specialElementHandlers = {
     '#getPDF': function(element, renderer){
@@ -203,13 +205,17 @@
       return true;
     }
   };
-
+  
+  let contentHTML = (document.getElementById('divEstado').innerHTML);
+  //document.getElementById("contentForPrint").innerHTML = contentHTML;
+  let el = document.getElementById("contentForPrint");
   // All units are in the set measurement for the document
   // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
+  doc.fromHTML(el, 15, 15, {
     'width': 170, 
     'elementHandlers': specialElementHandlers
   }, function(){
+    console.log(doc)
     doc.save('Generated.pdf');
   });
 
