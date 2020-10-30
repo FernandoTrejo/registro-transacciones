@@ -66,7 +66,7 @@
               
               <!-- listado de asientos-->
               <div id="divEstado" class="">
-                <h5 class="mb-0 text-center" id="txtNombreEmpresa">Empreza</h5>
+                <h5 class="mb-0 text-center" id="txtNombreEmpresa"></h5>
                 <div class="row d-flex justify-content-center">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div class="card">
@@ -159,6 +159,11 @@
                 </div>
               </div>
               
+              <div class="row">
+                <button id="btnCrearPdf" type="button" class="btn btn-warning">Descargar PDF</button>
+              </div>
+              
+              <div id="elementH"></div>
               <div id="mensaje"><h4 class="mb-0 text-center">No hay asientos guardados</h4></div>
               
           </div>
@@ -176,6 +181,33 @@
     <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
     <!-- main js -->
     <script src="assets/libs/js/main-js.js"></script>
+    <script src="assets/vendor/jspdf/jspdf.umd.min.js"></script>
+
     <script type="module" src="src/pages/estados/resultado.js"></script>
+    <script type="module">
+      const { jsPDF } = window.jspdf;
+      function genPdf(){
+  var doc = new jsPDF();
+  
+  var elementHTML = $('#divEstado').html();
+  /*var specialElementHandlers = {
+      '#elementH': function (element, renderer) {
+          return true;
+      }
+  };
+  doc.fromHTML(elementHTML, 15, 15, {
+      'width': 170,
+      'elementHandlers': specialElementHandlers
+  });
+  
+  // Save the PDF
+  doc.save('sample-document.pdf');*/
+  console.log(doc);
+  doc.addHTML(elementHTML,15,15,{},function(){
+    pdf.save('informe.pdf');
+  });
+}
+document.getElementById("btnCrearPdf").addEventListener("click", genPdf);
+    </script>
 </body>
 </html>

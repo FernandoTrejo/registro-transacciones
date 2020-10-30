@@ -2,6 +2,8 @@ import { Storage } from '../../storage/Storage.js';
 import { LibroMayor } from '../../clases/LibroMayor.js';
 import { Money } from '../../clases/Money.js';
 import { Catalogo } from '../../clases/Catalogo.js';
+//import { jsPDF } from "../../../assets/vendor/jspdf/jspdf.umd.min.js";
+
 
 let session = Storage.getSessionData();
 let store = null;
@@ -192,3 +194,4 @@ function mostrarResultados(){
   document.getElementById("footerResultados").innerHTML = footer;
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
 }
+
