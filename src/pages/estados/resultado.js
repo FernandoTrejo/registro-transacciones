@@ -2,7 +2,7 @@ import { Storage } from '../../storage/Storage.js';
 import { LibroMayor } from '../../clases/LibroMayor.js';
 import { Money } from '../../clases/Money.js';
 import { Catalogo } from '../../clases/Catalogo.js';
-//import { jsPDF } from "../../../assets/vendor/jspdf/jspdf.umd.min.js";
+
 
 
 let session = Storage.getSessionData();
@@ -194,12 +194,12 @@ function mostrarResultados(){
   document.getElementById("footerResultados").innerHTML = footer;
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
 }
-
+/*
 document.getElementById("getPDF").addEventListener("click", getPDF);
 
 function getPDF() {
   var doc = new jsPDF();
- console.log(doc)
+ //console.log(doc)
   // We'll make our own renderer to skip this editor
   var specialElementHandlers = {
     '#getPDF': function(element, renderer){
@@ -212,10 +212,11 @@ function getPDF() {
 
   // All units are in the set measurement for the document
   // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML($('.content-result').get(0), 15, 15, {
+  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
     'width': 170, 
     'elementHandlers': specialElementHandlers
   });
 
   doc.save('Generated.pdf');
 }
+*/

@@ -25,6 +25,7 @@
 </head>
 
 <body>
+    
     <div class="dashboard-main-wrapper">
 
 <div class="dashboard-header">
@@ -188,6 +189,30 @@
     <script src="assets/libs/js/main-js.js"></script>
 
     <script type="module" src="src/pages/estados/resultado.js"></script>
-  
+     <script>
+     document.getElementById("getPDF").addEventListener("click", getPDF);
+   function getPDF() {
+  var doc = new jsPDF();
+ console.log(doc)
+  // We'll make our own renderer to skip this editor
+  var specialElementHandlers = {
+    '#getPDF': function(element, renderer){
+      return true;
+    },
+    '.controls': function(element, renderer){
+      return true;
+    }
+  };
+
+  // All units are in the set measurement for the document
+  // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
+    'width': 170, 
+    'elementHandlers': specialElementHandlers
+  });
+
+  doc.save('Generated.pdf');
+}
+ </script>
 </body>
 </html>
