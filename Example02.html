@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
  
 <head>
@@ -16,19 +16,15 @@
     
     <script type="module" src="src/pages/session.js"></script>
     
-    <!--JsPdf-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
-    
-    <title>Estado de Resultados</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 
 <body>
-    
-    <div class="dashboard-main-wrapper">
-
-<div class="dashboard-header">
+  
+<div id="hahaha" class="dashboard-header">
     <nav class="navbar navbar-expand-lg bg-dark fixed-top">
         <a class="navbar-brand" href="index.html">Contabilidad</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +46,7 @@
         </div>
     </nav>
 </div>
-
         <div include-html="pages/main/sidebar.html"></div>
-
         <div class="dashboard-wrapper">
             <div class="container-fluid dashboard-content">
               <div class="row">
@@ -72,7 +66,8 @@
               </div>
               
               <!-- listado de asientos-->
-              <div id="divEstado" class="content-result">
+              <div id="test">
+              <section id="divEstado">
                 <h5 class="mb-0 text-center" id="txtNombreEmpresa"></h5>
                 <div class="row d-flex justify-content-center">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -164,7 +159,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
+              <div>
               
               <div class="row d-flex justify-content-center">
                 <button id="getPDF" type="button" class="btn btn-warning">Descargar PDF</button>
@@ -172,11 +168,19 @@
               
               <div id="mensaje"><h4 class="mb-0 text-center">No hay asientos guardados</h4></div>
               
+              <div id="hola" class="zima">
+<h1> Header </h1>
+
+<p>  content  </p>
+ 
+</div>
+<div id="hey"><p>Hajs</p></div>
+<button id="getPDF" onclick="getPDF()">Download PDF</button>
           </div>
         </div>
-    </div>
-    
-    <script src="src/pages/global.js"></script>
+            </div>
+       </div>
+     <script src="src/pages/global.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->
@@ -189,8 +193,7 @@
     <script src="assets/libs/js/main-js.js"></script>
 
     <script type="module" src="src/pages/estados/resultado.js"></script>
-     <script>
-     document.getElementById("getPDF").addEventListener("click", getPDF);
+ <script>
    function getPDF() {
   var doc = new jsPDF();
  console.log(doc)
@@ -206,15 +209,15 @@
 
   // All units are in the set measurement for the document
   // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
+  doc.fromHTML(document.getElementById('hahaha'), 15, 15, {
     'width': 170, 
     'elementHandlers': specialElementHandlers
   }, function(){
-    console.log("finish");
+    console.log("finish")
   });
 
   doc.save('Generated.pdf');
 }
  </script>
-</body>
-</html>
+ 
+ </body>
