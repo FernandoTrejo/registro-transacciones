@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
     
     <script type="module" src="src/pages/session.js"></script>
+    
+    <!--JsPdf-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+    
     <title>Estado de Resultados</title>
 </head>
 
@@ -159,11 +165,10 @@
                 </div>
               </div>
               
-              <div class="row">
-                <button id="btnCrearPdf" type="button" class="btn btn-warning">Descargar PDF</button>
+              <div class="row d-flex justify-content-center">
+                <button id="getPDF" type="button" class="btn btn-warning">Descargar PDF</button>
               </div>
               
-              <div id="elementH"></div>
               <div id="mensaje"><h4 class="mb-0 text-center">No hay asientos guardados</h4></div>
               
           </div>
@@ -181,33 +186,8 @@
     <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
     <!-- main js -->
     <script src="assets/libs/js/main-js.js"></script>
-    <script src="assets/vendor/jspdf/jspdf.umd.min.js"></script>
 
     <script type="module" src="src/pages/estados/resultado.js"></script>
-    <script type="module">
-      const { jsPDF } = window.jspdf;
-      function genPdf(){
-  var doc = new jsPDF();
   
-  var elementHTML = $('#divEstado').html();
-  /*var specialElementHandlers = {
-      '#elementH': function (element, renderer) {
-          return true;
-      }
-  };
-  doc.fromHTML(elementHTML, 15, 15, {
-      'width': 170,
-      'elementHandlers': specialElementHandlers
-  });
-  
-  // Save the PDF
-  doc.save('sample-document.pdf');*/
-  console.log(doc);
-  doc.addHTML(elementHTML,15,15,{},function(){
-    pdf.save('informe.pdf');
-  });
-}
-document.getElementById("btnCrearPdf").addEventListener("click", genPdf);
-    </script>
 </body>
 </html>
