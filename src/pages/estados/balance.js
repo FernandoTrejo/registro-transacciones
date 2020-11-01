@@ -94,28 +94,18 @@ function mostrarActivo(cuentas){
                   <td><b>CUENTA</b></td>
                   <td><b>DEUDOR</b></td>
                   <td><b>ACREEDOR</b></td>
-                  <td><b>DEUDOR</b></td>
-                  <td><b>ACREEDOR</b></td>
               </tr>`;
   let saldosAcreedores = [];
   let saldosDeudores = [];
-  let debeGenerales = [];
-  let haberGenerales = [];
   
   for(let cuenta of cuentas){
-    let debe = cuenta.getDebe();
-    let haber =  cuenta.getHaber();
+    
     let saldo = cuenta.getSaldo();
     
     if(!cuenta.estaBalanceada()){
-      debeGenerales.push(debe);
-      haberGenerales.push(haber);
-      
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>
-                <td><b>${debe.toString()}</b></td>
-                <td><b>${haber.toString()}</b></td>`;
+                <td><b>${cuenta.getTitular()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -130,15 +120,10 @@ function mostrarActivo(cuentas){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let debeGeneral = Money.calculateMoneySum(debeGenerales);
-  let haberGeneral = Money.calculateMoneySum(haberGenerales);
-  
   let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
-                <td><b>${debeGeneral.toString()}</b></td>
-                <td><b>${haberGeneral.toString()}</b></td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
@@ -160,28 +145,19 @@ function mostrarPasivo(cuentas){
                   <td><b>CUENTA</b></td>
                   <td><b>DEUDOR</b></td>
                   <td><b>ACREEDOR</b></td>
-                  <td><b>DEUDOR</b></td>
-                  <td><b>ACREEDOR</b></td>
               </tr>`;
   let saldosAcreedores = [];
   let saldosDeudores = [];
-  let debeGenerales = [];
-  let haberGenerales = [];
   
   for(let cuenta of cuentas){
-    let debe = cuenta.getDebe();
-    let haber =  cuenta.getHaber();
+    
     let saldo = cuenta.getSaldo();
     
     if(!cuenta.estaBalanceada()){
-      debeGenerales.push(debe);
-      haberGenerales.push(haber);
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>
-                <td><b>${debe.toString()}</b></td>
-                <td><b>${haber.toString()}</b></td>`;
+                <td><b>${cuenta.getTitular()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -196,15 +172,10 @@ function mostrarPasivo(cuentas){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let debeGeneral = Money.calculateMoneySum(debeGenerales);
-  let haberGeneral = Money.calculateMoneySum(haberGenerales);
-  
   let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
-                <td><b>${debeGeneral.toString()}</b></td>
-                <td><b>${haberGeneral.toString()}</b></td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
@@ -226,28 +197,19 @@ function mostrarCapital(cuentas, utilidad){
                   <td><b>CUENTA</b></td>
                   <td><b>DEUDOR</b></td>
                   <td><b>ACREEDOR</b></td>
-                  <td><b>DEUDOR</b></td>
-                  <td><b>ACREEDOR</b></td>
               </tr>`;
   let saldosAcreedores = [];
   let saldosDeudores = [];
-  let debeGenerales = [];
-  let haberGenerales = [];
-  
+
   for(let cuenta of cuentas){
-    let debe = cuenta.getDebe();
-    let haber =  cuenta.getHaber();
+    
     let saldo = cuenta.getSaldo();
     
     if(!cuenta.estaBalanceada()){
-      debeGenerales.push(debe);
-      haberGenerales.push(haber);
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>
-                <td><b>${debe.toString()}</b></td>
-                <td><b>${haber.toString()}</b></td>`;
+                <td><b>${cuenta.getTitular()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -262,15 +224,10 @@ function mostrarCapital(cuentas, utilidad){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let debeGeneral = Money.calculateMoneySum(debeGenerales);
-  let haberGeneral = Money.calculateMoneySum(haberGenerales);
-  
   let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
-                <td><b>${debeGeneral.toString()}</b></td>
-                <td><b>${haberGeneral.toString()}</b></td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
@@ -279,8 +236,8 @@ function mostrarCapital(cuentas, utilidad){
   let finalRes = Money.calculateMoneySum([res, utilidad]);
   
   
-  let cardFoot = `<p class="mb-0"><b>Utilidad del ejercicio:  ${utilidad.toString()}</b></p>`;
-  cardFoot += `<p class="mb-0"><b>Capital: ${res.toString()} + ${utilidad.toString()} = ${finalRes.toString()}</b></p>`;   
+  let cardFoot = `<p class="mb-0"><b>UTILIDAD:  ${utilidad.toString()}</b></p>`;
+  cardFoot += `<p class="mb-0"><b>TOTAL CAPITAL: ${res.toString()} + ${utilidad.toString()} = ${finalRes.toString()}</b></p>`;   
   
   document.getElementById("listaCuentasCapital").innerHTML = result;
   document.getElementById("footerCuentasCapital").innerHTML = footer;
@@ -293,11 +250,11 @@ function mostrarResultados(act, cap, pas){
   console.log(act,cap,pas)
   let pascap = Money.calculateMoneySum([cap, pas]);
   let diferencia = Money.calculateMoneySus(act, pascap);
-  let result = `<tr><td>Activo</td><td>${act.toString()}</td></tr>`;
-  result += `<tr><td>Pasivo + Capital</td><td>${pascap.toString()}</td></tr>`;
+  let result = `<tr><td><b>Activo</b></td><td><b>${act.toString()}</b></td></tr>`;
+  result += `<tr><td><b>Pasivo + Capital</b></td><td><b>${pascap.toString()}</b></td></tr>`;
   
   let lineStyle = (Number(act.amount) != Number(pascap.amount)) ? "line-error" : "line-success";
-  let footer = `<tr class="${lineStyle}"><td>Diferencia</td><td>${diferencia.toString()}</td></tr>`;
+  let footer = `<tr class="${lineStyle}"><td><b>Diferencia</b></td><td><b>${diferencia.toString()}</b></td></tr>`;
   
   let cardFoot = `<p class="mb-0"><b></b></p>`;   
   document.getElementById("listaResultados").innerHTML = result
