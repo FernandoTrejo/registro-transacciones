@@ -194,6 +194,10 @@ function mostrarResultados(){
   document.getElementById("footerResultados").innerHTML = footer;
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
 }
+
+document.getElementById('getPDF').addEventListener("click", function(){
+  alert('Su documento se está procesando, tenga paciencia, este proceso puede tardar años. Ja! Perdón, aún no funciona ;c');
+});
 /*
 document.getElementById("getPDF").addEventListener("click", getPDF);
 
