@@ -217,7 +217,7 @@ function mostrarPasivo(cuentas){
   document.getElementById("footerCuentasPasivo").innerHTML = footer;
   document.getElementById("cardFootPasivo").innerHTML = cardFoot;
   
-  return finalRes;
+  return res;
 }
 
 function mostrarCapital(cuentas, utilidad){
