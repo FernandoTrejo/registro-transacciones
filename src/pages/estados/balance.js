@@ -210,7 +210,7 @@ function mostrarPasivo(cuentas){
                 </tr>`;
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
-  let res = new Money(Number(finalRes.amount)*-1);
+  let res = new Money(Number(finalRes.amount)*(-1));
   let cardFoot = `<p class="mb-0"><b>Pasivo: ${res.toString()} </b></p>`;   
   
   document.getElementById("listaCuentasPasivo").innerHTML = result;
@@ -290,6 +290,7 @@ function mostrarCapital(cuentas, utilidad){
 }
 
 function mostrarResultados(act, cap, pas){
+  console.log(act,cap,pas)
   let pascap = Money.calculateMoneySum([cap, pas]);
   
   let result = `<tr><td>Activo</td><td>${act.toString()}</td></tr>`;
