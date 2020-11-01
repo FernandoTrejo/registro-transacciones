@@ -16,12 +16,6 @@
     
     <script type="module" src="src/pages/session.js"></script>
     
-    <!--JsPdf-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
-    
-    
     <title>Balance General</title>
 </head>
 
@@ -229,11 +223,50 @@
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-                <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-                <link rel="stylesheet" href="assets/libs/css/style.css">
-                <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-                <link rel="stylesheet" href="assets/css/styles.css" />`);
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+                    <style type="text/css" media="all">
+      fieldset{
+  background-color: #c3cbd4; 
+  padding: 6px; 
+  border-radius: 8px;
+}
+
+legend{
+  background-color:#FFF;
+  font-size: 17px;
+  border-radius: 8px;
+  padding: 3px 10px 3px 10px;
+  width: auto;
+}
+
+.separator{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+div[class="card"]{
+  border-radius: 10px;
+}
+
+button{
+  border-radius: 8px;
+}
+
+.line-success{
+  background-color: #4cbb54;
+  color: #fff;
+}
+
+.line-error{
+  background-color: #d7825f;
+  color: #fff;
+}
+
+body{
+  font-family: times;
+}
+    </style>`);
             a.document.write('</head><body><div class="dashboard-main-wrapper">            <div class="container-fluid dashboard-content">'); 
             a.document.write(divContents); 
             a.document.write('</div></div></body></html>'); 
