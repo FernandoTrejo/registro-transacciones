@@ -292,12 +292,12 @@ function mostrarCapital(cuentas, utilidad){
 function mostrarResultados(act, cap, pas){
   console.log(act,cap,pas)
   let pascap = Money.calculateMoneySum([cap, pas]);
-  
+  let diferencia = Money.calculateMoneySus(act, pascap);
   let result = `<tr><td>Activo</td><td>${act.toString()}</td></tr>`;
   result += `<tr><td>Pasivo + Capital</td><td>${pascap.toString()}</td></tr>`;
   
   let lineStyle = (Number(act.amount) != Number(pascap.amount)) ? "line-error" : "line-success";
-  let footer = `<tr class="${lineStyle}"><td>Cantidades Iguales</td><td></td></tr>`;
+  let footer = `<tr class="${lineStyle}"><td>Diferencia</td><td>${diferencia.toString()}</td></tr>`;
   
   let cardFoot = `<p class="mb-0"><b></b></p>`;   
   document.getElementById("listaResultados").innerHTML = result
