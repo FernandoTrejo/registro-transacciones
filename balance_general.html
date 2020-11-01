@@ -219,6 +219,27 @@
     <script src="assets/libs/js/main-js.js"></script>
 
     <script type="module" src="src/pages/estados/balance.js"></script>
- 
+   <script type="text/javascript" charset="utf-8">
+     document.getElementById("getPDF").addEventListener("click", printDiv);
+     function printDiv() { 
+            var divContents = document.getElementById("divEstado").innerHTML; 
+            var a = window.open('', '', 'height=500, width=500'); 
+            a.document.write(`<!doctype html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+                <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+                <link rel="stylesheet" href="assets/libs/css/style.css">
+                <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+                <link rel="stylesheet" href="assets/css/styles.css" />`);
+            a.document.write('</head><body><div class="dashboard-main-wrapper">            <div class="container-fluid dashboard-content">'); 
+            a.document.write(divContents); 
+            a.document.write('</div></div></body></html>'); 
+            a.document.close(); 
+            a.print(); 
+        } 
+   </script>
 </body>
 </html>
