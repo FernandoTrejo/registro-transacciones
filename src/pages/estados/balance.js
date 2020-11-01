@@ -210,8 +210,8 @@ function mostrarPasivo(cuentas){
                 </tr>`;
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
-  
-  let cardFoot = `<p class="mb-0"><b>Pasivo: ${finalRes.toString()} </b></p>`;   
+  let res = new Money(Number(finalRes.amount)*-1);
+  let cardFoot = `<p class="mb-0"><b>Pasivo: ${res.toString()} </b></p>`;   
   
   document.getElementById("listaCuentasPasivo").innerHTML = result;
   document.getElementById("footerCuentasPasivo").innerHTML = footer;
@@ -274,12 +274,13 @@ function mostrarCapital(cuentas, utilidad){
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
-                
-  let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor, utilidad]);
-  let finalRes02 =Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
+  let finalRes02 = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
+  let res = new Money(Number(finalRes02.amount)*(-1));
+  let finalRes = Money.calculateMoneySum([res, utilidad]);
+  
   
   let cardFoot = `<p class="mb-0"><b>Utilidad del ejercicio:  ${utilidad.toString()}</b></p>`;
-  cardFoot += `<p class="mb-0"><b>Capital: ${finalRes02.toString()} + ${utilidad.toString()} = ${finalRes.toString()}</b></p>`;   
+  cardFoot += `<p class="mb-0"><b>Capital: ${res.toString()} + ${utilidad.toString()} = ${finalRes.toString()}</b></p>`;   
   
   document.getElementById("listaCuentasCapital").innerHTML = result;
   document.getElementById("footerCuentasCapital").innerHTML = footer;
