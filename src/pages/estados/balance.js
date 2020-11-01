@@ -120,7 +120,7 @@ function mostrarActivo(cuentas){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
@@ -172,7 +172,7 @@ function mostrarPasivo(cuentas){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
@@ -224,7 +224,7 @@ function mostrarCapital(cuentas, utilidad){
   let saldoDeudor = Money.calculateMoneySum(saldosDeudores);
   let saldoAcreedor = Money.calculateMoneySum(saldosAcreedores);
   
-  let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
                 <td><b>Resultados</td>
