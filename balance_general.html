@@ -263,10 +263,19 @@ body{
     </style><title>Balance General</title>`);
             a.document.write('</head><body><div class="dashboard-main-wrapper">            <div class="container-fluid dashboard-content">'); 
             a.document.write(divContents); 
+            a.document.write(`<div class="separator"></div><h5 class="text-center">F. <u>${spaces(30)}</u></h5><h5 class="text-center">FIRMA CONTADOR</h5>`);
             a.document.write('</div></div></body></html>'); 
             a.document.close(); 
             a.print(); 
         } 
+        
+        function spaces(num){
+          let res = ``;
+          for(let i=0; i<num; i++){
+            res += `&nbsp;`;
+          }
+          return res;
+        }
    </script>
 </body>
 </html>
