@@ -1,41 +1,286 @@
-<!DOCTYPE html> 
-<html> 
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
   
-<head> 
-    <title> 
-        Print the content of a div 
-    </title> 
-      
-
-</head> 
-  
-<body style="text-align:center;"> 
-      
-    <div id="GFG" style="background-color: green;"> 
-          
-        <h2>Geeksforgeeks</h2> 
-          
-        <p> 
-            This is inside the div and will be printed 
-            on the screen after the click. 
-        </p> 
-    </div> 
-      
-    <input type="button" value="click" onclick="printDiv()">  
+    <!-- styles -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
     
-    <!-- Script to print the content of a div -->
-    <script> 
-        function printDiv() { 
-            var divContents = document.getElementById("GFG").innerHTML; 
+    <script type="module" src="src/pages/session.js"></script>
+    
+    <title>Balance General</title>
+</head>
+
+<body>
+    
+    <div class="dashboard-main-wrapper">
+
+<div id="dashboard-header" class="dashboard-header">
+    <nav class="navbar navbar-expand-lg bg-dark fixed-top">
+        <a class="navbar-brand" href="index.html">Contabilidad</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto navbar-right-top">
+                <li class="nav-item dropdown nav-user">
+                    <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar_empresa.jpg" alt="" class="user-avatar-md rounded-circle"></a>
+                    <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                        <div class="nav-user-info">
+                            <h5 class="mb-0 text-white nav-user-name" id="headerNombreEmpresa"></h5>
+                        </div>
+                        <a class="dropdown-item" href="config.html"><i class="fas fa-cog mr-2"></i>Config</a>
+                        <a class="dropdown-item" href="inicio.html"><i class="fas fa-power-off mr-2"></i>Cerrar Sesión</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+        <div include-html="pages/main/sidebar.html"></div>
+
+        <div class="dashboard-wrapper">
+            <div class="container-fluid dashboard-content">
+              <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" >
+                      <div class="page-header">
+              
+                          <div class="page-breadcrumb">
+                              <nav aria-label="breadcrumb">
+                                  <ol class="breadcrumb">
+                                      <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Estados Financieros</a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Balance General</li>
+                                  </ol>
+                              </nav>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- listado de asientos-->
+              <div id="divEstado" class="content-result">
+                <h5 class="mb-0 text-center" id="txtNombreEmpresa"></h5>
+                <div class="separator"></div>
+                <div class="row d-flex justify-content-center">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <tr><td>
+                    <div class="card">
+                      <div class="card-body">
+                      <div class="card">
+                        <div class="card-header">
+                          <h5 class="mb-0" id="">ACTIVO</h5>
+                        </div>
+                      <div class="card-body table-responsive">
+                            <table class="table table-hover table-bordered first">
+                                <thead class="">
+                                    <tr>
+                                        <th scope="col">CÓDIGO</th>
+                                        <th scope="col">CONCEPTO</th>
+                                        <th scope="col" colspan="2">SALDOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaCuentasActivo">
+                                    
+                                </tbody>
+                                <tfoot id="footerCuentasActivo">
+                                  
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="card-footer" id="cardFootActivo">
+                          
+                        </div>
+                    </div>
+                      </div>
+                    </div>
+                       </td><td>
+                    <div class="card">
+                      <div class="card-body">
+                     <div class="card">
+                       <div class="card-header">
+                         <h5 class="mb-0" id="">CAPITAL</h5>
+                        </div>
+                      <div class="card-body table-responsive">
+                            <table class="table table-hover table-bordered first">
+                                <thead class="">
+                                    <tr>
+                                        <th scope="col">CÓDIGO</th>
+                                        <th scope="col">CONCEPTO</th>
+                                        <th scope="col" colspan="2">SALDOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaCuentasCapital">
+                                    
+                                </tbody>
+                                <tfoot id="footerCuentasCapital">
+                                  
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="card-footer" id="cardFootCapital">
+                          
+                        </div>
+                    </div>
+                     <div class="card">
+                       <div class="card-header">
+                         <h5 class="mb-0" id="">PASIVO</h5>
+                        </div>
+                      <div class="card-body table-responsive">
+                            <table class="table table-hover table-bordered first">
+                                <thead class="">
+                                    <tr>
+                                        <th scope="col">CÓDIGO</th>
+                                        <th scope="col">CONCEPTO</th>
+                                        <th scope="col" colspan="2">SALDOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaCuentasPasivo">
+                                    
+                                </tbody>
+                                <tfoot id="footerCuentasPasivo">
+                                  
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="card-footer" id="cardFootPasivo">
+                          
+                        </div>
+                    </div>
+                     </div>
+                    </div>
+                      </td></tr>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row d-flex justify-content-center">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div class="card">
+                       <div class="card-header">
+                         <h5 class="mb-0" id="">RESULTADOS</h5>
+                        </div>
+                      <div class="card-body table-responsive">
+                            <table class="table table-hover table-bordered first">
+                                <thead class="">
+                                    <tr>
+                                        <th scope="col">DETALLE</th>
+                                        <th scope="col">CANTIDAD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaResultados">
+                                    
+                                </tbody>
+                                <tfoot id="footerResultados">
+                                  
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="card-footer" id="cardFootResultados">
+                          
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row d-flex justify-content-center">
+                <button id="getPDF" type="button" class="btn btn-warning">Descargar PDF</button>
+              </div>
+              
+              <div id="mensaje"><h4 class="mb-0 text-center">No hay asientos guardados</h4></div>
+              
+          </div>
+        </div>
+    </div>
+    
+    <script src="src/pages/global.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+
+    <script type="module" src="src/pages/estados/balance.js"></script>
+   <script type="text/javascript" charset="utf-8">
+     document.getElementById("getPDF").addEventListener("click", printDiv);
+     function printDiv() { 
+            var divContents = document.getElementById("divEstado").innerHTML; 
             var a = window.open('', '', 'height=500, width=500'); 
-            a.document.write('<html>'); 
-            a.document.write('<body > <h1>Div contents are <br>'); 
+            a.document.write(`<!doctype html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                 <!-- Bootstrap CSS -->
+              <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+              <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+              <link rel="stylesheet" href="assets/libs/css/style.css">
+              <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+                
+                    <style type="text/css" media="all">
+      fieldset{
+  background-color: #c3cbd4; 
+  padding: 6px; 
+  border-radius: 8px;
+}
+
+legend{
+  background-color:#FFF;
+  font-size: 17px;
+  border-radius: 8px;
+  padding: 3px 10px 3px 10px;
+  width: auto;
+}
+
+.separator{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+div[class="card"]{
+  border-radius: 10px;
+}
+
+button{
+  border-radius: 8px;
+}
+
+body{
+  font-family: times;
+}
+    </style><title>Balance General</title>`);
+            a.document.write('</head><body><div class="dashboard-main-wrapper">            <div class="container-fluid dashboard-content">'); 
             a.document.write(divContents); 
-            a.document.write('</body></html>'); 
+            a.document.write(`<div class="separator"></div><h5 class="text-center">F. <u>${spaces(100)}</u></h5><h5 class="text-center">FIRMA CONTADOR</h5>`);
+            a.document.write('</div></div></body></html>'); 
             a.document.close(); 
             a.print(); 
         } 
-    </script> 
-</body> 
-  
-</html>    
+        
+        function spaces(num){
+          let res = ``;
+          for(let i=0; i<num; i++){
+            res += `&nbsp;`;
+          }
+          return res;
+        }
+   </script>
+</body>
+</html>
