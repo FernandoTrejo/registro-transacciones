@@ -57,7 +57,7 @@ function mostrarBalance(){
   }
   //agregar html al div
   if(hayAsientos){
-    document.getElementById("txtNombreEmpresa").innerText = store.getObject().getConfig().empresa.nombreComercial;
+    document.getElementById("txtNombreEmpresa").innerText = "Balance General: " + store.getObject().getConfig().empresa.nombreComercial;
     hidDivsExcept(divs, ['divEstado']);
     let utilidad = calcularUtilidad(cuentasIngresos, cuentasEgresos);
     

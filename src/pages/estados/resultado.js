@@ -42,7 +42,7 @@ function mostrarEstado(){
   }
   //agregar html al div
   if(hayAsientos){
-    document.getElementById("txtNombreEmpresa").innerText = store.getObject().getConfig().empresa.nombreComercial;
+    document.getElementById("txtNombreEmpresa").innerText = "Estado de Resultados: " + store.getObject().getConfig().empresa.nombreComercial;
     hidDivsExcept(divs, ['divEstado']);
     mostrarIngresos(cuentasIngresos);
     mostrarEgresos(cuentasEgresos);
