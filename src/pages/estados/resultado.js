@@ -182,12 +182,12 @@ function mostrarEgresos(cuentas){
 function mostrarResultados(){
   let ing = new Money(Math.abs(ingresos.amount));
   let eg = new Money(egresos.amount * -1);
-  let result = `<tr><td>Ingresos</td><td>${ing.toString()}</td></tr>`;
-  result += `<tr><td>Egresos (costos/gastos)</td><td>${eg.toString()}</td></tr>`;
+  let result = `<tr><td><b>Ingresos</b></td><td><b>${ing.toString()}</b></td></tr>`;
+  result += `<tr><td><b>Egresos (costos/gastos)</b></td><td><b>${eg.toString()}</b></td></tr>`;
   
   let utilidad = Money.calculateMoneySum([ing, eg]);
   let lineStyle = (Number(utilidad.amount) <= 0) ? "line-error" : "line-success";
-  let footer = `<tr class="${lineStyle}"><td>Utilidad del Ejercicio</td><td>${utilidad.toString()}</td></tr>`;
+  let footer = `<tr class="${lineStyle}"><td><b>Utilidad del Ejercicio</b></td><td><b>${utilidad.toString()}</b></td></tr>`;
   
   let cardFoot = `<p class="mb-0"><b>Utilidad: ${utilidad.toString()} </b></p>`;   
   document.getElementById("listaResultados").innerHTML = result
@@ -195,32 +195,4 @@ function mostrarResultados(){
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
 }
 
-document.getElementById('getPDF').addEventListener("click", function(){
-  alert('Su documento se está procesando, tenga paciencia, este proceso puede tardar años. Ja! Perdón, aún no funciona ;c');
-});
-/*
-document.getElementById("getPDF").addEventListener("click", getPDF);
 
-function getPDF() {
-  var doc = new jsPDF();
- //console.log(doc)
-  // We'll make our own renderer to skip this editor
-  var specialElementHandlers = {
-    '#getPDF': function(element, renderer){
-      return true;
-    },
-    '.controls': function(element, renderer){
-      return true;
-    }
-  };
-
-  // All units are in the set measurement for the document
-  // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-  doc.fromHTML(document.getElementById('divEstado'), 15, 15, {
-    'width': 170, 
-    'elementHandlers': specialElementHandlers
-  });
-
-  doc.save('Generated.pdf');
-}
-*/
