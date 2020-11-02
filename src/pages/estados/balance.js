@@ -57,7 +57,7 @@ function mostrarBalance(){
   }
   //agregar html al div
   if(hayAsientos){
-    document.getElementById("txtNombreEmpresa").innerText = "Balance General: " + store.getObject().getConfig().empresa.nombreComercial;
+    document.getElementById("txtNombreEmpresa").innerText = "BALANCE GENERAL: " + store.getObject().getConfig().empresa.nombreComercial.toUpperCase();
     hidDivsExcept(divs, ['divEstado']);
     let utilidad = calcularUtilidad(cuentasIngresos, cuentasEgresos);
     
@@ -105,7 +105,7 @@ function mostrarActivo(cuentas){
     if(!cuenta.estaBalanceada()){
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>`;
+                <td><b>${cuenta.getTitular().toUpperCase()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -123,14 +123,14 @@ function mostrarActivo(cuentas){
   let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
-                <td><b>Resultados</td>
+                <td><b>RESULTADOS</td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
   
-  let cardFoot = `<p class="mb-0"><b>Activo: ${finalRes.toString()} </b></p>`;   
+  let cardFoot = `<p class="mb-0"><b>ACTIVO: ${finalRes.toString()} </b></p>`;   
   
   document.getElementById("listaCuentasActivo").innerHTML = result;
   document.getElementById("footerCuentasActivo").innerHTML = footer;
@@ -157,7 +157,7 @@ function mostrarPasivo(cuentas){
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>`;
+                <td><b>${cuenta.getTitular().toUpperCase()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -175,14 +175,14 @@ function mostrarPasivo(cuentas){
   let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
-                <td><b>Resultados</td>
+                <td><b>RESULTADOS</td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
   let res = new Money(Number(finalRes.amount)*(-1));
-  let cardFoot = `<p class="mb-0"><b>Pasivo: ${res.toString()} </b></p>`;   
+  let cardFoot = `<p class="mb-0"><b>PASIVO: ${res.toString()} </b></p>`;   
   
   document.getElementById("listaCuentasPasivo").innerHTML = result;
   document.getElementById("footerCuentasPasivo").innerHTML = footer;
@@ -209,7 +209,7 @@ function mostrarCapital(cuentas, utilidad){
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>`;
+                <td><b>${cuenta.getTitular().toUpperCase()}</b></td>`;
       if(saldo.amount > 0){
         saldosDeudores.push(saldo);
         result += `<td><b>${saldo.toString()}</b></td><td></td></tr>`;
@@ -227,7 +227,7 @@ function mostrarCapital(cuentas, utilidad){
   let footer = `<tr><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
-                <td><b>Resultados</td>
+                <td><b>RESULTADOS</td>
                 <td><b>${saldoDeudor.toString()}</b></td>
                 <td><b>${saldoAcreedor.toString()}</b></td>
                 </tr>`;
@@ -250,18 +250,15 @@ function mostrarResultados(act, cap, pas){
   console.log(act,cap,pas)
   let pascap = Money.calculateMoneySum([cap, pas]);
   let diferencia = Money.calculateMoneySus(act, pascap);
-  let result = `<tr><td><b>Activo</b></td><td><b>${act.toString()}</b></td></tr>`;
-  result += `<tr><td><b>Pasivo + Capital</b></td><td><b>${pascap.toString()}</b></td></tr>`;
+  let result = `<tr><td><b>ACTIVO</b></td><td><b>${act.toString()}</b></td></tr>`;
+  result += `<tr><td><b>PASIVO + CAPITAL</b></td><td><b>${pascap.toString()}</b></td></tr>`;
   
   let lineStyle = (Number(act.amount) != Number(pascap.amount)) ? "line-error" : "line-success";
-  let footer = `<tr class="${lineStyle}"><td><b>Diferencia</b></td><td><b>${diferencia.toString()}</b></td></tr>`;
+  let footer = `<tr class="${lineStyle}"><td><b>DIFERENCIA</b></td><td><b>${diferencia.toString()}</b></td></tr>`;
   
   let cardFoot = `<p class="mb-0"><b></b></p>`;   
   document.getElementById("listaResultados").innerHTML = result
   document.getElementById("footerResultados").innerHTML = footer;
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
 }
-/*
-document.getElementById('getPDF').addEventListener("click", function(){
-  alert('Su documento se está procesando, tenga paciencia, este proceso puede tardar años. Ja! Perdón, aún no funciona ;c');
-});*/
+

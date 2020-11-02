@@ -42,7 +42,7 @@ function mostrarEstado(){
   }
   //agregar html al div
   if(hayAsientos){
-    document.getElementById("txtNombreEmpresa").innerText = "Estado de Resultados: " + store.getObject().getConfig().empresa.nombreComercial;
+    document.getElementById("txtNombreEmpresa").innerText = "ESTADO DE RESULTADOS: " + store.getObject().getConfig().empresa.nombreComercial.toUpperCase();
     hidDivsExcept(divs, ['divEstado']);
     mostrarIngresos(cuentasIngresos);
     mostrarEgresos(cuentasEgresos);
@@ -77,7 +77,7 @@ function mostrarIngresos(cuentas){
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>
+                <td><b>${cuenta.getTitular().toUpperCase()}</b></td>
                 <td><b>${debe.toString()}</b></td>
                 <td><b>${haber.toString()}</b></td>`;
       if(saldo.amount > 0){
@@ -100,7 +100,7 @@ function mostrarIngresos(cuentas){
   let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
-                <td><b>Resultados</td>
+                <td><b>RESULTADOS</td>
                 <td><b>${debeGeneral.toString()}</b></td>
                 <td><b>${haberGeneral.toString()}</b></td>
                 <td><b>${saldoDeudor.toString()}</b></td>
@@ -109,7 +109,7 @@ function mostrarIngresos(cuentas){
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
   ingresos = finalRes;
-  let cardFoot = `<p class="mb-0"><b>Ingresos: ${finalRes.toString()} </b></p>`;           
+  let cardFoot = `<p class="mb-0"><b>INGRESOS: ${finalRes.toString()} </b></p>`;           
   document.getElementById("listaCuentasIngresos").innerHTML = result;
   document.getElementById("footerCuentasIngresos").innerHTML = footer;
   document.getElementById("cardFootIngresos").innerHTML = cardFoot;
@@ -140,7 +140,7 @@ function mostrarEgresos(cuentas){
       
       result += `<tr class="">
                 <td><b>${cuenta.getCodigo()}</b></td>
-                <td><b>${cuenta.getTitular()}</b></td>
+                <td><b>${cuenta.getTitular().toUpperCase()}</b></td>
                 <td><b>${debe.toString()}</b></td>
                 <td><b>${haber.toString()}</b></td>`;
       if(saldo.amount > 0){
@@ -163,7 +163,7 @@ function mostrarEgresos(cuentas){
   let footer = `<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 <tr class="">
                 <td></td>
-                <td><b>Resultados</td>
+                <td><b>RESULTADOS</td>
                 <td><b>${debeGeneral.toString()}</b></td>
                 <td><b>${haberGeneral.toString()}</b></td>
                 <td><b>${saldoDeudor.toString()}</b></td>
@@ -172,7 +172,7 @@ function mostrarEgresos(cuentas){
                 
   let finalRes = Money.calculateMoneySum([saldoDeudor, saldoAcreedor]);
   egresos = finalRes;
-  let cardFoot = `<p class="mb-0"><b>Egresos: ${finalRes.toString()} </b></p>`;   
+  let cardFoot = `<p class="mb-0"><b>EGRESOS: ${finalRes.toString()} </b></p>`;   
   
   document.getElementById("listaCuentasEgresos").innerHTML = result;
   document.getElementById("footerCuentasEgresos").innerHTML = footer;
@@ -182,14 +182,14 @@ function mostrarEgresos(cuentas){
 function mostrarResultados(){
   let ing = new Money(Math.abs(ingresos.amount));
   let eg = new Money(egresos.amount * -1);
-  let result = `<tr><td><b>Ingresos</b></td><td><b>${ing.toString()}</b></td></tr>`;
-  result += `<tr><td><b>Egresos (costos/gastos)</b></td><td><b>${eg.toString()}</b></td></tr>`;
+  let result = `<tr><td><b>INGRESOS</b></td><td><b>${ing.toString()}</b></td></tr>`;
+  result += `<tr><td><b>EGRESOS (COSTOS/GASTOS)</b></td><td><b>${eg.toString()}</b></td></tr>`;
   
   let utilidad = Money.calculateMoneySum([ing, eg]);
   let lineStyle = (Number(utilidad.amount) <= 0) ? "line-error" : "line-success";
-  let footer = `<tr class="${lineStyle}"><td><b>Utilidad del Ejercicio</b></td><td><b>${utilidad.toString()}</b></td></tr>`;
+  let footer = `<tr class="${lineStyle}"><td><b>UTILIDAD DEL EJERCICIO</b></td><td><b>${utilidad.toString()}</b></td></tr>`;
   
-  let cardFoot = `<p class="mb-0"><b>Utilidad: ${utilidad.toString()} </b></p>`;   
+  let cardFoot = `<p class="mb-0"><b>UTILIDAD: ${utilidad.toString()} </b></p>`;   
   document.getElementById("listaResultados").innerHTML = result
   document.getElementById("footerResultados").innerHTML = footer;
   document.getElementById("cardFootResultados").innerHTML = cardFoot;
