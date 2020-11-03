@@ -69,6 +69,9 @@
             
               <div id="divListadoAsientos"></div>
               
+               <div class="row d-flex justify-content-center">
+                <button id="getPDF" type="button" class="btn btn-warning">Descargar PDF</button>
+              </div>
           </div>
         </div>
     </div>
@@ -91,6 +94,80 @@
     <script src="assets/vendor/datepicker/datepicker.js"></script>
     
     <script type="module" src="src/pages/libros/diario/main.js"></script>
+    
+    <script>
+     document.getElementById("getPDF").addEventListener("click", getPDF);
+     function getPDF() {
+       var divContents = document.getElementById("divListadoAsientos").innerHTML; 
+       var a = window.open('', '', 'height=500, width=500'); 
+       a.document.write(`<!doctype html>
+          <html lang="en">
+           
+          <head>
+              <!-- Required meta tags -->
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+              <!-- Bootstrap CSS -->
+              <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+              <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+              <link rel="stylesheet" href="assets/libs/css/style.css">
+              <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+            
+              <!-- styles -->
+              <style type="text/css" media="all">
+                fieldset{
+            background-color: #c3cbd4; 
+            padding: 6px; 
+            border-radius: 8px;
+          }
+          
+                legend{
+                  background-color:#FFF;
+                  font-size: 17px;
+                  border-radius: 8px;
+                  padding: 3px 10px 3px 10px;
+                  width: auto;
+                }
+                
+                .separator{
+                  margin-top: 10px;
+                  margin-bottom: 10px;
+                }
+                
+                div[class="card"]{
+                  border-radius: 10px;
+                }
+                
+                button{
+                  border-radius: 8px;
+                }
+                
+                body{
+                  font-family: times;
+                }
+              </style>
+               
+              <title>Libro Diario</title>
+          </head>
+          
+          <body>`);
+       a.document.write('</head><body><div class="dashboard-main-wrapper">            <div class="container-fluid dashboard-content">'); 
+       a.document.write(divContents); 
+       a.document.write(`<div class="separator"></div><h5 class="text-center">F. <u>${spaces(100)}</u></h5><h5 class="text-center">FIRMA CONTADOR</h5>`);
+       a.document.write('</div></div></body></html>'); 
+       a.document.close(); 
+       a.print();
+     }
+     
+     function spaces(num){
+          let res = ``;
+          for(let i=0; i<num; i++){
+            res += `&nbsp;`;
+          }
+          return res;
+        }
+ </script>
+ 
 </body>
  
 </html>
