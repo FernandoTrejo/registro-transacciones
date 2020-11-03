@@ -12,7 +12,7 @@ function mostrarLista(){
   agregarNombreEmpresa(store.getObject().getConfig().empresa.nombreComercial);
   let asientos = store.getObject().getLibroDiario().getAsientos();
   let resultDefault = `<div class="separator"></div><h4 class="mb-0 text-center">No hay ningún asiento guardado.</h4>`;
-  let result = `<div class="separator"></div><h4 class="mb-0 text-center">Lista Asientos</h4>`;
+  let result = `</div><h4 class="mb-0 text-center">Lista Asientos</h4>`;
   let hayAsientos = false;
   if(asientos.length > 0){
     hayAsientos = true;
