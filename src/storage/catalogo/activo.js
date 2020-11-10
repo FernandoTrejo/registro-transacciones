@@ -66,7 +66,13 @@
         {
           'codigo': '1103',
           'titular': 'CUENTAS POR COBRAR',
-          'subcuentas': []
+          'subcuentas': [
+            {
+              'codigo': '110301',
+              'titular': 'Clientes',
+              'subcuentas': []
+            }
+          ]
         },
         {
           'codigo': '1104',

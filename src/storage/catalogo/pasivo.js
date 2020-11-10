@@ -24,6 +24,11 @@ let pasivo = {
               'codigo': '210202',
               'titular': 'Extranjeros',
               'subcuentas': []
+            },
+            {
+              'codigo': '210203',
+              'titular': 'Proveedores',
+              'subcuentas': []
             }
           ]
         },
