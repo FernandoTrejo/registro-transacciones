@@ -13,11 +13,11 @@ function armarCatalogo(cuentas,cuentaMadre = null){
        resultHtml += `
        <div class="card">
           <div class="card-header d-flex">
-            <h5 class="mb-0">
+            <div>
              <a class="btn btn-link" data-toggle="collapse" data-parent="#accordion-${parent}" href="#collapse-${cuenta.codigo}">
                <span class="fas fa-angle-down mr-3"></span>${cuenta.codigo} - ${cuenta.titular}
              </a>
-            </h5>
+            </div>
             <button style="border-radius: 25%" id="btn-subcuentas-${cuenta.codigo}" type="button" class="ml-auto btn btn-warning btn-sm crear-subcuentas" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-plus-circle"></i></button>
           </div>
           <div id="collapse-${cuenta.codigo}" class="collapse in">
@@ -35,11 +35,11 @@ function armarCatalogo(cuentas,cuentaMadre = null){
        resultHtml += `
        <div class="card">
           <div class="card-header d-flex">
-            <p class="mb-0">
+            <div>
              <a class="btn btn-link" data-parent="#accordion-${parent}">
                <span class="fas fa-long-arrow-alt-right mr-3"></span>${cuenta.codigo} - ${cuenta.titular}
              </a>
-            </p>
+            </div>
             <button style="border-radius: 25%" id="btn-subcuentas-${cuenta.codigo}" type="button" class="ml-auto btn btn-warning btn-sm crear-subcuentas" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-plus-circle"></i></button>
           </div>
           

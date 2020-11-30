@@ -21,7 +21,8 @@ function listarEmpresas(){
   if(localStorage.length > 0){
     for(let i=0; i<localStorage.length; i++){
       let key = localStorage.key(i);
-      if(key != 'session'){
+      console.log(key.substr(0,4))
+      if(key != 'session' && key.substr(0, 4) != 'INV-'){
         hayEmpresas = true;
         let obj = JSON.parse(localStorage.getItem(key));
         console.log(obj)
